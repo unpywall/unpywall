@@ -23,6 +23,8 @@ class UnpaywallCache():
             self.content[doi] = self.download_again(doi)
         return deepcopy(self.content[doi])
     def download_again(self, doi):
+        if email is None:
+            raise NoEmailException("You must enter an email addresss.")
         time.sleep(_mandatory_wait_time)
         return urllib.request.urlopen(_unpaywall_url(doi)).read()
 
@@ -33,7 +35,5 @@ def _unpaywall_url(doi):
     return search_url
 
 def unpaywall_json(doi):
-    if email is None:
-        raise NoEmailException("You must enter an email addresss.")
     text = cache.get(doi)
     return json.loads(text)
