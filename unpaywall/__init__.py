@@ -37,3 +37,10 @@ def _unpaywall_url(doi):
 def unpaywall_json(doi):
     text = cache.get(doi)
     return json.loads(text)
+
+def unpaywall_pdf_link(doi):
+    json_data = unpaywall_json(doi)
+    try:
+        return json_data["best_oa_location"]["url_for_pdf"]
+    except:
+        return None
