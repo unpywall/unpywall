@@ -1,7 +1,10 @@
 import urllib.request
+import requests
 import json
 import time
+import pickle
 from copy import deepcopy
+import os
 
 email = None
 
@@ -11,17 +14,42 @@ class NoEmailException(Exception):
     pass
 
 class UnpaywallCache():
-    def __init__(self, timeout=100000000):
+    def __init__(self, timeout="never", name=None):
+        if name == None:
+            self.name = os.path.join(os.path.dirname(__file__),"unpaywall_cache")
+        else:
+            self.name = name
+        try:
+            self.load(self.name)
+        except FileNotFoundError:
+            print("no cache found")
+            self.content = {}
+            self.access_times = {}
         self.timeout = timeout
-        self.content = {}
-        self.access_times = {}
     def timed_out(self, doi):
+        if self.timeout == "never":
+            return False
         return time.time() > self.access_times[doi] + self.timeout
     def get(self, doi):
         if (not doi in self.content) or self.timed_out(doi):
             self.access_times[doi] = time.time()
             self.content[doi] = self.download_again(doi)
+            self.save()
         return deepcopy(self.content[doi])
+    def save(self, name=None):
+        if name == None:
+            name = self.name
+        with open(self.name, "wb") as handle:
+            pickle.dump({"content":self.content,
+                         "access_times":self.access_times},
+                        handle)
+    def load(self, name=None):
+        if name == None:
+            name = self.name
+        with open(name, "rb") as handle:
+            data = pickle.load(handle)
+        self.content = data["content"]
+        self.access_times = data["access_times"]
     def download_again(self, doi):
         if email is None:
             raise NoEmailException("You must enter an email addresss.")
@@ -44,3 +72,26 @@ def unpaywall_pdf_link(doi):
         return json_data["best_oa_location"]["url_for_pdf"]
     except:
         return None
+
+def unpaywall_doc_link(doi):
+    json_data = unpaywall_json(doi)
+    try:
+        return json_data["best_oa_location"]["url"]
+    except:
+        return None
+
+def unpaywall_all_links(doi):
+    data = []
+    for value in [unpaywall_doc_link(doi),
+                  unpaywall_pdf_link(doi)]:
+        if value and not value in data:
+            data.append(value)
+    return data
+
+def unpaywall_download_pdf_handle(doi):
+    pdf_link = unpaywall_pdf_link(doi)
+    return urllib.request.urlopen(pdf_link)
+
+def unpaywall_download_requests(doi):
+    pdf_link = unpaywall_pdf_link(doi)
+    return requests.get(pdf_link).text
