@@ -7,7 +7,7 @@ with open(readme_path, "r") as handle:
 
 setup(
     name="unpaywallpython",
-    version="0.0.1",
+    version="0.0.2",
     description="Programmatically access open access (OA) articles",
     long_description=README,
     long_description_content_type="text/markdown",
