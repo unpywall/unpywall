@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 
 readme_path = os.path.join(os.path.dirname(__file__),"README.md")
@@ -6,7 +6,7 @@ with open(readme_path, "r") as handle:
     README = handle.read()
 
 setup(
-    name="unpaywall-python",
+    name="unpaywall",
     version="0.0.1",
     description="Programmatically access open access (OA) articles",
     long_description=README,
@@ -20,5 +20,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    packages=setuptools.find_packages()
+    packages=find_packages()
 )
