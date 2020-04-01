@@ -6,7 +6,7 @@ with open(readme_path, "r") as handle:
     README = handle.read()
 
 setup(
-    name="unpaywall",
+    name="unpaywallpython",
     version="0.0.1",
     description="Programmatically access open access (OA) articles",
     long_description=README,
