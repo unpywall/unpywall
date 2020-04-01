@@ -70,14 +70,14 @@ def unpaywall_pdf_link(doi):
     json_data = unpaywall_json(doi)
     try:
         return json_data["best_oa_location"]["url_for_pdf"]
-    except:
+    except (KeyError, TypeError):
         return None
 
 def unpaywall_doc_link(doi):
     json_data = unpaywall_json(doi)
     try:
         return json_data["best_oa_location"]["url"]
-    except:
+    except (KeyError, TypeError):
         return None
 
 def unpaywall_all_links(doi):
