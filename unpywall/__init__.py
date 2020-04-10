@@ -12,7 +12,7 @@ class Unpywall:
 
     @staticmethod
     def _validate_dois(dois):
-        if dois is None:
+        if dois is None or len(dois) == 0:
             raise ValueError('No DOI specified')
 
         if not isinstance(dois, list):
