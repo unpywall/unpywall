@@ -11,7 +11,7 @@ This package is influenced by [roadoi](https://github.com/ropensci/roadoi), a R 
 ## Install
 
 Install from [pypi](https://pypi.org/project/unpywall/) using pip:
-```
+```python
 pip install unpywall
 ```
 
@@ -19,7 +19,7 @@ pip install unpywall
 
 Use the `get` method to query the Unpaywall API. In order to interface the API, your email must be included. The method returns a pandas DataFrame.
 
-```
+```python
 from unpywall import Unpywall
 
 Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
@@ -28,7 +28,7 @@ Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
 
 By setting the parameter progress to True, you can monitore the progress of your API call.
 
-```
+```python
 Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
              email='nick.haupka@gmail.com',
              progress=True)
@@ -36,7 +36,7 @@ Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
 
 Keep in mind that network errors can occur. Change the errors parameter to `ignore` to avoid a script abort.
 
-```
+```python
 Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
              email='nick.haupka@gmail.com',
              errors='ignore')
@@ -46,6 +46,6 @@ Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
 
 To install unpywall, along with dev tools, run:
 
-```
+```python
 pip install -e .[dev]
 ```
