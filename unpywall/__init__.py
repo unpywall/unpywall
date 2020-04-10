@@ -13,13 +13,13 @@ class Unpywall:
     @staticmethod
     def _validate_dois(dois):
         if dois is None:
-            raise ValueError('No DOI entered')
+            raise ValueError('No DOI specified')
 
         if not isinstance(dois, list):
-            raise ValueError('Entered Value is not a list')
+            raise ValueError('The input format must be of type list')
 
         if len(dois) > Unpywall.api_limit:
-            raise ValueError('Rate limit 100k')
+            raise ValueError('Unpaywall only allows to 100,000 calls per day')
 
         for doi in dois:
             doi.replace(' ', '')
@@ -33,10 +33,10 @@ class Unpywall:
         email_regex = r'^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$'
 
         if email is None:
-            raise ValueError('An email address is required')
+            raise ValueError('An email address is required in order to work with the Unpaywall API')
 
         if not re.match(email_regex, email):
-            raise ValueError('No valid email address')
+            raise ValueError('No valid email address entered. Enter a valid email address')
 
         if 'example.com' in email:
             raise ValueError('Do not use example.com')
@@ -47,7 +47,7 @@ class Unpywall:
     def _fetch(doi, email, errors):
         try:
             url = 'https://api.unpaywall.org/v2/{0}?email={1}'.format(doi, email)
-            r = requests.get(url, timeout=None)
+            r = requests.get(url, timeout=5)
             r.raise_for_status()
             return r
         except requests.exceptions.HTTPError as HTTPError:
@@ -68,9 +68,12 @@ class Unpywall:
 
     @staticmethod
     def _progress(progress):
+
         bar_len = 50
         block = int(round(bar_len*progress))
+
         text = '|{0}| {1}%'.format('=' * block + ' ' * (bar_len-block), int(progress * 100))
+
         print(text, end='\r', flush=False, file=sys.stdout)
         time.sleep(0.1)
 
@@ -97,7 +100,7 @@ class Unpywall:
             except (AttributeError, json.decoder.JSONDecodeError):
 
                 if errors == 'raise':
-                    raise AttributeError('API did not return json')
+                    raise AttributeError('Unpaywall API did not return json')
                 else:
                     continue
 
@@ -110,7 +113,7 @@ class Unpywall:
         email = Unpywall._validate_email(email)
 
         if errors != 'ignore' and errors != 'raise':
-            raise ValueError('check entered value for errors')
+            raise ValueError('The argument errors only accepts the values "ignore" and "raise"')
 
         df = Unpywall._parser(dois, email, progress, errors)
 
