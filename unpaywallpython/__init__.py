@@ -63,6 +63,11 @@ def _unpaywall_url(doi):
     return search_url
 
 def unpaywall_json(doi):
+    """
+    This function returns all information in Unpaywall about the given DOI.
+    :param doi: The DOI of the requested paper.
+    :returns: A JSON data structure containing all information returned by Unpaywall about the given DOI.
+    """
     text = cache.get(doi)
     return json.loads(text)
 
