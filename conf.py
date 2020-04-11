@@ -60,3 +60,4 @@ sys.path.append(".")
 
 extensions = ['sphinx.ext.autodoc']
 
+master_doc = 'index'
