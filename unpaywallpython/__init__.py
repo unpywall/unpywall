@@ -11,6 +11,9 @@ email = None
 _mandatory_wait_time = 1
 
 class NoEmailException(Exception):
+    """
+    This exception is raised when an email is not provided.
+    """
     pass
 
 class UnpaywallCache():
