@@ -89,6 +89,11 @@ def unpaywall_all_links(doi):
     return data
 
 def unpaywall_download_pdf_handle(doi):
+    """
+    This function returns a file-like object containing the requested PDF.
+    :param doi: The DOI of the requested paper.
+    :returns: The handnle of the PDF file.
+    """
     pdf_link = unpaywall_pdf_link(doi)
     return urllib.request.urlopen(pdf_link)
 
