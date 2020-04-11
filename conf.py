@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'unpaywallpython'
+project = 'unpaywall python'
 copyright = '2020, bganglia'
 author = 'bganglia'
 
