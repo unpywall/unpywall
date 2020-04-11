@@ -81,6 +81,12 @@ def unpaywall_doc_link(doi):
         return None
 
 def unpaywall_all_links(doi):
+    """
+    This function returns a list of URLs for all open-access copies 
+    listed in Unpaywall.
+    :param doi: The DOI of the requested paper.
+    :returns: A list of URLs leading to open-access copies.
+    """
     data = []
     for value in [unpaywall_doc_link(doi),
                   unpaywall_pdf_link(doi)]:
