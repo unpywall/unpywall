@@ -11,9 +11,16 @@ email = None
 _mandatory_wait_time = 1
 
 class NoEmailException(Exception):
+    """
+    This exception is raised when an email is not provided.
+    """
     pass
 
 class UnpaywallCache():
+    """
+    This class stores query results from Unpaywall.
+    It has a configurable timeout that can also be set to never expire.
+    """
     def __init__(self, timeout="never", name=None):
         if name == None:
             self.name = os.path.join(os.path.dirname(__file__),"unpaywall_cache")
@@ -59,14 +66,29 @@ class UnpaywallCache():
 cache = UnpaywallCache()
 
 def _unpaywall_url(doi):
+    """
+    This function returns all information in Unpaywall about the given DOI.
+    :param doi: The DOI of the requested paper.
+    :returns: A formatted URL that can be used to retrieve information from Unpaywall about the given DOI.
+    """
     search_url = "https://api.unpaywall.org/v2/{0}?email={1}".format(doi, email)
     return search_url
 
 def unpaywall_json(doi):
+    """
+    This function returns all information in Unpaywall about the given DOI.
+    :param doi: The DOI of the requested paper.
+    :returns: A JSON data structure containing all information returned by Unpaywall about the given DOI.
+    """
     text = cache.get(doi)
     return json.loads(text)
 
 def unpaywall_pdf_link(doi):
+    """
+    This function returns a link to the an OA pdf (if available).
+    :param doi: The DOI of the requested paper.
+    :returns: The URL of an OA PDF (if available).
+    """
     json_data = unpaywall_json(doi)
     try:
         return json_data["best_oa_location"]["url_for_pdf"]
@@ -74,6 +96,11 @@ def unpaywall_pdf_link(doi):
         return None
 
 def unpaywall_doc_link(doi):
+    """
+    This function returns a link to the best OA location (not necessarily a PDF).
+    :param doi: The DOI of the requested paper.
+    :returns: The URL of the best OA location (not necessarily a PDF). 
+    """
     json_data = unpaywall_json(doi)
     try:
         return json_data["best_oa_location"]["url"]
@@ -81,6 +108,12 @@ def unpaywall_doc_link(doi):
         return None
 
 def unpaywall_all_links(doi):
+    """
+    This function returns a list of URLs for all open-access copies 
+    listed in Unpaywall.
+    :param doi: The DOI of the requested paper.
+    :returns: A list of URLs leading to open-access copies.
+    """
     data = []
     for value in [unpaywall_doc_link(doi),
                   unpaywall_pdf_link(doi)]:
@@ -89,9 +122,19 @@ def unpaywall_all_links(doi):
     return data
 
 def unpaywall_download_pdf_handle(doi):
+    """
+    This function returns a file-like object containing the requested PDF.
+    :param doi: The DOI of the requested paper.
+    :returns: The handnle of the PDF file.
+    """
     pdf_link = unpaywall_pdf_link(doi)
     return urllib.request.urlopen(pdf_link)
 
 def unpaywall_download_requests(doi):
+    """
+    This function returns a pdf corresponding to the doi, as text.
+    :param doi: The DOI of the requested paper
+    :returns: The text of a PDF file
+    """
     pdf_link = unpaywall_pdf_link(doi)
     return requests.get(pdf_link).text
