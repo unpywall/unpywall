@@ -59,6 +59,11 @@ class UnpaywallCache():
 cache = UnpaywallCache()
 
 def _unpaywall_url(doi):
+    """
+    This function returns all information in Unpaywall about the given DOI.
+    :param doi: The DOI of the requested paper.
+    :returns: A formatted URL that can be used to retrieve information from Unpaywall about the given DOI.
+    """
     search_url = "https://api.unpaywall.org/v2/{0}?email={1}".format(doi, email)
     return search_url
 
