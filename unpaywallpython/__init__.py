@@ -14,6 +14,10 @@ class NoEmailException(Exception):
     pass
 
 class UnpaywallCache():
+    """
+    This class stores query results from Unpaywall.
+    It has a configurable timeout that can also be set to never expire.
+    """
     def __init__(self, timeout="never", name=None):
         if name == None:
             self.name = os.path.join(os.path.dirname(__file__),"unpaywall_cache")
