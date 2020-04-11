@@ -67,6 +67,11 @@ def unpaywall_json(doi):
     return json.loads(text)
 
 def unpaywall_pdf_link(doi):
+    """
+    This function returns a link to the an OA pdf (if available).
+    :param doi: The DOI of the requested paper.
+    :returns: The URL of an OA PDF (if available).
+    """
     json_data = unpaywall_json(doi)
     try:
         return json_data["best_oa_location"]["url_for_pdf"]
