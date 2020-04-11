@@ -93,5 +93,10 @@ def unpaywall_download_pdf_handle(doi):
     return urllib.request.urlopen(pdf_link)
 
 def unpaywall_download_requests(doi):
+    """
+    This function returns a pdf corresponding to the doi, as text.
+    :param doi: The DOI of the requested paper
+    :returns: The text of a PDF file
+    """
     pdf_link = unpaywall_pdf_link(doi)
     return requests.get(pdf_link).text
