@@ -1,6 +1,6 @@
 unpywall - Interfacing the Unpaywall API with Python
 
-[![codecov.io](https://codecov.io/gh/naustica/unpywall/branch/master/graph/badge.svg)](https://codecov.io/gh/naustica/unpywall?branch=master)
+[![codecov.io](https://codecov.io/gh/unpywall/unpaywall-python/branch/master/graph/badge.svg)](https://codecov.io/gh/unpywall/unpaywall-python?branch=master)
 
 ## Introduction
 
