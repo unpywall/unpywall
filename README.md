@@ -42,6 +42,22 @@ Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
              errors='ignore')
 ```
 
+Open-access information on a paper, based on the doi
+
+```python
+import unpaywallpython
+
+unpaywallpython.email='myemail@gmail.com'
+doi='10.1038/s41408-020-0288-3'
+oa_info = unpaywallpython.unpaywall_json(doi)
+```
+
+Links to open-access copies of a paper
+
+```python
+unpaywallpython.unpaywall_all_links(doi)
+```
+
 ## Develop
 
 To install unpywall, along with dev tools, run:

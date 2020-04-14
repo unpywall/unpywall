@@ -1,7 +1,8 @@
 import pytest
 import pandas as pd
+import os
 
-from unpywall import Unpywall
+from unpywall import Unpywall, UnpaywallCredentials
 
 
 class TestUnpywall:
@@ -25,32 +26,31 @@ class TestUnpywall:
         bad_email = 'https://github.com/naustica/unpywall'
 
         with pytest.raises(ValueError, match='An email address is required in order to work with the Unpaywall API'):
-            assert Unpywall._validate_email(None)
+            assert UnpaywallCredentials.validate_email(None)
 
         with pytest.raises(ValueError, match='No valid email address entered. Enter a valid email address'):
-            assert Unpywall._validate_email(bad_email)
+            assert UnpaywallCredentials.validate_email(bad_email)
 
         with pytest.raises(ValueError, match='Do not use example.com'):
-            assert Unpywall._validate_email('nick.haupka@example.com')
+            assert UnpaywallCredentials.validate_email('nick.haupka@example.com')
 
-        assert Unpywall._validate_email(correct_email) == correct_email
+        assert UnpaywallCredentials.validate_email(correct_email) == correct_email
 
     def test_fetch(self):
         pass
 
-    def test_parser(self):
+    @pytest.fixture
+    def test_get_df(self):
 
-        df = Unpywall._parser(dois=['10.1038/nature12373'],
-                              email='nick.haupka@gmail.com',
-                              progress=False,
-                              errors='ignore')
-
-        assert isinstance(df, pd.DataFrame)
-
-    def test_get(self):
+        os.environ['UNPAYWALL_EMAIL'] = 'nick.haupka@gmail.com'
 
         with pytest.raises(ValueError, match='The argument errors only accepts the values "ignore" and "raise"'):
-            assert Unpywall.get(dois=['10.1038/nature12373'],
-                                email='nick.haupka@gmail.com',
-                                progress=False,
-                                errors='skip')
+            assert Unpywall.get_df(dois=['10.1038/nature12373'],
+                                   progress=False,
+                                   errors='skip')
+
+        df = Unpywall.get_df(dois=['10.1038/nature12373'],
+                             progress=False,
+                             errors='ignore')
+
+        assert isinstance(df, pd.DataFrame)

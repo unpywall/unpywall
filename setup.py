@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from os import path
 
 dir = path.abspath(path.dirname(__file__))
@@ -11,12 +11,12 @@ setup(name='unpywall',
       description='Interfacing the Unpaywall Database with Python',
       long_description=long_description,
       long_description_content_type='text/markdown',
-      url='https://github.com/naustica/unpywall',
+      url='https://github.com/unpywall/unpaywall-python',
       download_url='',
-      author='Nick Haupka',
-      author_email='nick.haupka@gmail.com',
+      author='Nick Haupka, bganglia',
+      author_email='nick.haupka@gmail.com, bganglia892@gmail.com',
       license='MIT',
-      packages=['unpywall'],
+      packages=find_packages(),
       keywords=['Unpaywall'],
       install_requires=[
         'pandas',
@@ -32,6 +32,7 @@ setup(name='unpywall',
       classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
+        "Operating System :: OS Independent",
         'Programming Language :: Python :: 3'
       ],
       zip_safe=False)
