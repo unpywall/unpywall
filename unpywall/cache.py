@@ -20,9 +20,12 @@ class UnpywallCache:
             self.load(self.name)
         except FileNotFoundError:
             print('No cache found')
-            self.content = {}
-            self.access_times = {}
+            self.fresh_cache()
         self.timeout = timeout
+
+    def fresh_cache(self):
+        self.content = {}
+        self.access_times = {}
 
     def clear(self, doi):
         if doi in self.access_times:
