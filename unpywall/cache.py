@@ -29,10 +29,10 @@ class UnpywallCache:
             return False
         return time.time() > self.access_times[doi] + self.timeout
 
-    def get(self, doi):
+    def get(self, doi, errors='raise'):
         if (doi not in self.content) or self.timed_out(doi):
             self.access_times[doi] = time.time()
-            self.content[doi] = self.download_again(doi)
+            self.content[doi] = self.download(doi, errors)
             self.save()
         return deepcopy(self.content[doi])
 
@@ -52,13 +52,35 @@ class UnpywallCache:
         self.content = data['content']
         self.access_times = data['access_times']
 
-    def download_again(self, doi):
+    def download(self, doi, errors):
 
         from .utils import UnpywallURL
 
-        mandatory_wait_time = os.environ.get('MANDATORY_WAIT_TIME', 1)
+        mandatory_wait_time = int(os.environ.get('MANDATORY_WAIT_TIME', 1))
         time.sleep(mandatory_wait_time)
         url = UnpywallURL(doi).url
-        return requests.get(url)
+
+        try:
+
+            r = requests.get(url)
+            r.raise_for_status()
+            return r
+
+        except requests.exceptions.HTTPError as HTTPError:
+            if errors == 'raise':
+                raise HTTPError
+
+        except requests.exceptions.RequestException as RequestException:
+            if errors == 'raise':
+                raise RequestException
+
+        except requests.exceptions.ConnectionError as ConnectionError:
+            if errors == 'raise':
+                raise ConnectionError
+
+        except requests.exceptions.Timeout as Timeout:
+            if errors == 'raise':
+                raise Timeout
+
 
 cache = UnpywallCache()

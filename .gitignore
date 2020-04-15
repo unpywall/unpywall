@@ -3,3 +3,4 @@ __pycache__/
 /*.egg-info
 *.coverage
 coverage.xml
+unpaywall_cache

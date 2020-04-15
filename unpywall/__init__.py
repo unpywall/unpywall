@@ -1,4 +1,3 @@
-import requests
 import urllib.request
 import pandas as pd
 import json
@@ -20,61 +19,6 @@ class Unpywall:
     """
 
     api_limit = 100000
-
-    @staticmethod
-    def _fetch(doi, errors):
-        """
-        Fetches information from the Unpaywall API service.
-
-        Parameters
-        ----------
-        doi : str
-            The desired DOI.
-        email : str
-            An email that is necessary for using the Unpaywall API service.
-        errors : str
-            Either 'raise' or 'ignore'. If the parameter errors is set to
-            'ignore' than errors will not raise an exception.
-
-        Returns
-        -------
-        object
-            A requests Response object.
-
-        Raises
-        ------
-        HTTPError
-            # TODO:
-        RequestException
-            # TODO:
-        ConnectionError
-            # TODO:
-        Timeout
-            # TODO:
-        """
-        try:
-
-            from .cache import cache
-
-            r = cache.get(doi)
-            r.raise_for_status()
-            return r
-
-        except requests.exceptions.HTTPError as HTTPError:
-            if errors == 'raise':
-                raise HTTPError
-
-        except requests.exceptions.RequestException as RequestException:
-            if errors == 'raise':
-                raise RequestException
-
-        except requests.exceptions.ConnectionError as ConnectionError:
-            if errors == 'raise':
-                raise ConnectionError
-
-        except requests.exceptions.Timeout as Timeout:
-            if errors == 'raise':
-                raise Timeout
 
     @staticmethod
     def _validate_dois(dois):
@@ -138,8 +82,6 @@ class Unpywall:
         ----------
         dois : list
             A list of DOIs.
-        email : str
-            An email that is necessary for using the Unpaywall API service.
         progress : bool
             Whether the progress of the API call should be printed out.
         errors : str
@@ -174,7 +116,7 @@ class Unpywall:
                 Unpywall._progress(n/len(dois))
 
             try:
-                r = Unpywall._fetch(doi, errors).json()
+                r = Unpywall.get_json(doi, errors)
 
                 # check if json is not empty due to an faulty DOI
                 if not bool(r):
@@ -194,7 +136,7 @@ class Unpywall:
         return df
 
     @staticmethod
-    def get_json(doi):
+    def get_json(doi, errors):
         """
         This function returns all information in Unpaywall about the given DOI.
 
@@ -211,11 +153,11 @@ class Unpywall:
         """
         from .cache import cache
 
-        text = cache.get(doi)
-        return json.loads(text)
+        r = cache.get(doi, errors)
+        return r.json()
 
     @staticmethod
-    def get_pdf_link(doi):
+    def get_pdf_link(doi, errors='raise'):
         """
         This function returns a link to the an OA pdf (if available).
 
@@ -229,14 +171,14 @@ class Unpywall:
         str
             The URL of an OA PDF (if available).
         """
-        json_data = Unpywall.get_json(doi)
+        json_data = Unpywall.get_json(doi, errors=errors)
         try:
-            return json_data["best_oa_location"]["url_for_pdf"]
+            return json_data['best_oa_location']['url_for_pdf']
         except (KeyError, TypeError):
             return None
 
     @staticmethod
-    def get_doc_link(doi):
+    def get_doc_link(doi, errors='raise'):
         """
         This function returns a link to the best OA location
         (not necessarily a PDF).
@@ -251,14 +193,14 @@ class Unpywall:
         str
             The URL of the best OA location (not necessarily a PDF).
         """
-        json_data = Unpywall.unpaywall_json(doi)
+        json_data = Unpywall.get_json(doi, errors)
         try:
             return json_data['best_oa_location']['url']
         except (KeyError, TypeError):
             return None
 
     @staticmethod
-    def get_all_links(doi):
+    def get_all_links(doi, errors='raise'):
         """
         This function returns a list of URLs for all open-access copies
         listed in Unpaywall.
@@ -274,14 +216,14 @@ class Unpywall:
             A list of URLs leading to open-access copies.
         """
         data = []
-        for value in [Unpywall.get_doc_link(doi),
-                      Unpywall.get_pdf_link(doi)]:
+        for value in [Unpywall.get_doc_link(doi, errors),
+                      Unpywall.get_pdf_link(doi, errors)]:
             if value and value not in data:
                 data.append(value)
         return data
 
     @staticmethod
-    def download_pdf_handle(doi):
+    def download_pdf_handle(doi, errors='raise'):
         """
         This function returns a file-like object containing the requested PDF.
 
@@ -295,5 +237,5 @@ class Unpywall:
         object
             The handle of the PDF file.
         """
-        pdf_link = Unpywall.get_pdf_link(doi)
+        pdf_link = Unpywall.get_pdf_link(doi, errors)
         return urllib.request.urlopen(pdf_link)
