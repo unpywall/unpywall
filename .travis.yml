@@ -6,4 +6,4 @@ python:
 install:
   - pip install -e .
 script:
-  - py.test tests/test_unpaywall.py
+  - py.test tests/test_unpywall.py
