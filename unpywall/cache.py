@@ -29,8 +29,8 @@ class UnpywallCache:
             return False
         return time.time() > self.access_times[doi] + self.timeout
 
-    def get(self, doi, errors='raise'):
-        if (doi not in self.content) or self.timed_out(doi):
+    def get(self, doi, errors='raise', force=False):
+        if (doi not in self.content) or self.timed_out(doi) or force:
             self.access_times[doi] = time.time()
             self.content[doi] = self.download(doi, errors)
             self.save()
