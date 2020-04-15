@@ -24,6 +24,12 @@ class UnpywallCache:
             self.access_times = {}
         self.timeout = timeout
 
+    def clear(self, doi):
+        if doi in self.access_times:
+            del self.access_times[doi]
+        if doi in self.content:
+            del self.content[doi]
+
     def timed_out(self, doi):
         if self.timeout == 'never':
             return False
