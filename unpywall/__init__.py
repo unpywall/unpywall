@@ -54,12 +54,12 @@ class Unpywall:
         """
         try:
 
-            from .utils import UnpywallURL
+            from .cache import cache
 
-            url = UnpywallURL(doi).url
-            r = requests.get(url, timeout=5)
+            r = cache.get(doi)
             r.raise_for_status()
             return r
+
         except requests.exceptions.HTTPError as HTTPError:
             if errors == 'raise':
                 raise HTTPError
@@ -297,21 +297,3 @@ class Unpywall:
         """
         pdf_link = Unpywall.get_pdf_link(doi)
         return urllib.request.urlopen(pdf_link)
-
-    @staticmethod
-    def download_requests(doi):
-        """
-        This function returns a pdf corresponding to the doi, as text.
-
-        Parameters
-        ----------
-        doi : str
-            The DOI of the requested paper
-
-        Returns
-        -------
-        object
-            The text of a PDF file
-        """
-        pdf_link = Unpywall.get_pdf_link(doi)
-        return requests.get(pdf_link).text

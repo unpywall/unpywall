@@ -1,4 +1,4 @@
-import urllib.request
+import requests
 import pickle
 from copy import deepcopy
 import os
@@ -41,7 +41,7 @@ class UnpywallCache:
             name = self.name
         with open(self.name, 'wb') as handle:
             pickle.dump({'content': self.content,
-                         'acces_times': self.access_times},
+                         'access_times': self.access_times},
                         handle)
 
     def load(self, name=None):
@@ -59,7 +59,6 @@ class UnpywallCache:
         mandatory_wait_time = os.environ.get('MANDATORY_WAIT_TIME', 1)
         time.sleep(mandatory_wait_time)
         url = UnpywallURL(doi).url
-        return urllib.request.urlopen(url.read())
-
+        return requests.get(url)
 
 cache = UnpywallCache()
