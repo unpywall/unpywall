@@ -8,9 +8,7 @@
 
 ## Introduction
 
-unpywall is a Python client that utilizes the [Unpaywall REST API](https://unpaywall.org/products/api) for scholarly analysis with [pandas](https://pandas.pydata.org/).
-
-This package is influenced by [roadoi](https://github.com/ropensci/roadoi), a R client that interacts with the Unpaywall API.
+unpywall is a Python client that utilizes the [Unpaywall REST API](https://unpaywall.org/products/api) for scholarly analysis with [pandas](https://pandas.pydata.org/). This package is influenced by [roadoi](https://github.com/ropensci/roadoi), a R client that interacts with the Unpaywall API.
 
 You can find more about the Unpaywall service here: https://unpaywall.org/.
 
@@ -56,14 +54,14 @@ You can track the progress of your API call by setting the parameter `progress` 
 
 ```python
 Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-             progress=True)
+                progress=True)
 ```
 
 The method also allows two options for catching errors (`raise` and `ignore`)
 
 ```python
 Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-             errors='ignore')
+                errors='ignore')
 ```
 
 ## Develop
