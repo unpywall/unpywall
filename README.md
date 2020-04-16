@@ -1,16 +1,21 @@
-unpywall - Interfacing the Unpaywall API with Python
+# unpywall - Interfacing the Unpaywall API with Python
 
-![Build Status](https://travis-ci.org/unpywall/unpywall.svg?branch=master)
+[![Build Status](https://travis-ci.org/unpywall/unpywall.svg?branch=master)](https://travis-ci.org/github/unpywall/unpywall)
 [![codecov.io](https://codecov.io/gh/unpywall/unpywall/branch/master/graph/badge.svg)](https://codecov.io/gh/unpywall/unpywall?branch=master)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/unpywall)
-![License](https://img.shields.io/github/license/unpywall/unpywall)
-![PyPI - Version](https://img.shields.io/pypi/v/unpywall)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/unpywall)](https://pypi.org/project/unpywall/)
+[![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpaywall-python/blob/master/LICENSE.txt)
+[![PyPI - Version](https://img.shields.io/pypi/v/unpywall)](https://pypi.org/project/unpywall/)
 
 ## Introduction
 
-unpywall is a Python client that utilize the [Unpaywall REST API](https://unpaywall.org/products/api) for scholarly analysis with [pandas](https://pandas.pydata.org/).
+unpywall is a Python client that utilizes the [Unpaywall REST API](https://unpaywall.org/products/api) for scholarly analysis with [pandas](https://pandas.pydata.org/).
 
 This package is influenced by [roadoi](https://github.com/ropensci/roadoi), a R client that interacts with the Unpaywall API.
+
+You can find more about the Unpaywall service here: https://unpaywall.org/.
+
+The documentation about the Unpaywall REST API is located here: https://unpaywall.org/products/api.
+
 
 ## Install
 
@@ -21,45 +26,44 @@ pip install unpywall
 
 ## Use
 
-Use the `get` method to query the Unpaywall API. In order to interface the API, your email must be included. The method returns a pandas DataFrame.
+### Authentication
+
+To use the Unpaywall Service, you need to authenticate yourself. For that, unpywall offers multiple ways for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself.
+
+```python
+from unpywall.utils import UnpywallCredentials
+
+UnpywallCredentials('nick.haupka@gmail.com')
+```
+
+Notice that the environment variable for authentication needs to be called `UNPAYWALL_EMAIL`.
+
+```bash
+export UNPAYWALL_EMAIL=nick.haupka@gmail.com
+```
+
+### Pandas Integration
+
+unpywall uses the data analysis tool [pandas](https://pandas.pydata.org/) for evaluating informations from Unpaywall. By default, the Unpaywall API returns a JSON data structure. However, by using `get_df`, you can transform that into a pandas DataFrame. This also works with multiple DOIs.
 
 ```python
 from unpywall import Unpywall
 
-Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-             email='nick.haupka@gmail.com')
+Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
 ```
 
-By setting the parameter progress to True, you can monitore the progress of your API call.
+You can track the progress of your API call by setting the parameter `progress` to True. This is especially useful for estimating the time required.
 
 ```python
-Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-             email='nick.haupka@gmail.com',
+Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
              progress=True)
 ```
 
-Keep in mind that network errors can occur. Change the errors parameter to `ignore` to avoid a script abort.
+The method also allows two options for catching errors (`raise` and `ignore`)
 
 ```python
-Unpywall.get(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-             email='nick.haupka@gmail.com',
+Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
              errors='ignore')
-```
-
-Open-access information on a paper, based on the doi
-
-```python
-import unpaywallpython
-
-unpaywallpython.email='myemail@gmail.com'
-doi='10.1038/s41408-020-0288-3'
-oa_info = unpaywallpython.unpaywall_json(doi)
-```
-
-Links to open-access copies of a paper
-
-```python
-unpaywallpython.unpaywall_all_links(doi)
 ```
 
 ## Develop

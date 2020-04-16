@@ -13,7 +13,7 @@ class Unpywall:
 
     Methods
     -------
-    get(dois, email, progress, errors)
+    get_df(dois, progress, errors)
         Retrieves information from the Unpaywall API service and returns a
         pandas DataFrame.
     """
@@ -106,7 +106,7 @@ class Unpywall:
 
         if errors != 'ignore' and errors != 'raise':
             raise ValueError('The argument errors only accepts the'
-                             + 'values "ignore" and "raise"')
+                             + ' values "ignore" and "raise"')
 
         df = pd.DataFrame()
 

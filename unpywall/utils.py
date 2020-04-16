@@ -44,11 +44,11 @@ class UnpywallCredentials:
 
         if email is None:
             raise ValueError('An email address is required in order to'
-                             + 'work with the Unpaywall API')
+                             + ' work with the Unpaywall API')
 
         if not re.match(email_regex, email):
             raise ValueError('No valid email address entered.'
-                             + 'Enter a valid email address')
+                             + ' Enter a valid email address')
 
         if 'example.com' in email:
             raise ValueError('Do not use example.com')
