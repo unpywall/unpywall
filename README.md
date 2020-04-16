@@ -26,7 +26,7 @@ pip install unpywall
 
 ### Authentication
 
-To use the Unpaywall Service, you need to authenticate yourself. For that, unpywall offers multiple ways for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself.
+To use the Unpaywall Service, you need to authenticate yourself. For that, unpywall offers multiple ways for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself. Both methods require an email.
 
 ```python
 from unpywall.utils import UnpywallCredentials
@@ -42,7 +42,7 @@ export UNPAYWALL_EMAIL=nick.haupka@gmail.com
 
 ### Pandas Integration
 
-unpywall uses the data analysis tool [pandas](https://pandas.pydata.org/) for evaluating informations from Unpaywall. By default, the Unpaywall API returns a JSON data structure. However, by using `get_df`, you can transform that into a pandas DataFrame. This also works with multiple DOIs.
+unpywall uses the data analysis tool [pandas](https://pandas.pydata.org/) for evaluating information from Unpaywall. By default, the Unpaywall API returns a JSON data structure. However, by using `get_df`, you can transform that into a pandas DataFrame. This also works with multiple DOIs.
 
 ```python
 from unpywall import Unpywall
