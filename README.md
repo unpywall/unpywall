@@ -64,6 +64,36 @@ Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
                 errors='ignore')
 ```
 
+### Conveniently obtain full text
+
+If you are using Unpaywall to obtain full-text copies of papers for literature mining, you may benefit from the following functions:
+
+You can use the `download_pdf_handle` method to return a PDF handle for the given DOI.
+```
+Unpywall.download_pdf_handle(doi='10.1038/nature12373')
+```
+
+To return an URL to a PDF for the given DOI, use `get_pdf_link`.
+```
+Unpywall.get_pdf_link(doi='10.1038/nature12373')
+```
+
+To return an URL to the best available OA copy, regardless of the format, use `get_doc_link`.
+```
+Unpywall.get_doc_link(doi='10.1038/nature12373')
+```
+
+To return a list of all URLS to OA copies, use `get_all_links`.
+```
+Unpywall.get_all_links(doi='10.1038/nature12373')
+```
+
+You can also directly access all data provided by unpaywall in json format using `get_json`.
+
+```
+Unpywall.get_json(doi='10.1038/nature12373')
+```
+
 ## Develop
 
 To install unpywall, along with dev tools, run:
