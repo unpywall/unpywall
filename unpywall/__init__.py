@@ -125,7 +125,9 @@ class Unpywall:
                 Unpywall._progress(n/len(dois))
 
             try:
-                r = Unpywall.get_json(doi, errors)
+                r = Unpywall.get_json(doi,
+                                      errors=errors,
+                                      ignore_cache=ignore_cache)
 
                 # check if json is not empty due to an faulty DOI
                 if not bool(r):

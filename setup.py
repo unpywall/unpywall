@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 from os import path
 
 dir = path.abspath(path.dirname(__file__))
@@ -7,7 +7,7 @@ with open(path.join(dir, 'README.md'), encoding='utf-8') as file:
 
 
 setup(name='unpywall',
-      version='0.1.7',
+      version='0.1.7.2',
       description='Interfacing the Unpaywall Database with Python',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -15,7 +15,7 @@ setup(name='unpywall',
       author='Nick Haupka, bganglia',
       author_email='nick.haupka@gmail.com, bganglia892@gmail.com',
       license='MIT',
-      packages=find_packages(),
+      packages=['unpywall'],
       keywords=['Unpaywall'],
       install_requires=[
         'pandas',
