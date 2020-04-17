@@ -114,5 +114,5 @@ Unpywall.get_json(doi='10.1038/nature12373')
 To install unpywall, along with dev tools, run:
 
 ```python
-pip install unpywall['dev']
+pip install -e '.[dev]'
 ```
