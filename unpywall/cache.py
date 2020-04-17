@@ -190,7 +190,7 @@ class UnpywallCache:
             if errors == 'raise':
                 raise Timeout
 
-        warnings.warn("Could not download doi: {}".format(doi))
+        warnings.warn('Could not download doi: {}'.format(doi))
 
 
 cache = UnpywallCache()
