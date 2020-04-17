@@ -3,6 +3,7 @@ import pickle
 from copy import deepcopy
 import os
 import time
+import warnings
 
 class UnpywallCache:
     """
@@ -82,7 +83,7 @@ class UnpywallCache:
         else:
             is_timed_out = time.time() > self.access_times[doi] + self.timeout
 
-    def get(self, doi, errors='raise', force=False, report=True):
+    def get(self, doi, errors='raise', ignore_cache=False):
         """
         Return the record for the given doi.
 
@@ -92,7 +93,7 @@ class UnpywallCache:
             The DOI to be retrieved.
         errors : str
             Whether to ignore or raise errors.
-        force : bool
+        ignore_cache : bool
             Whether to force the cache to retrieve a new entry.
 
         Returns
@@ -101,13 +102,15 @@ class UnpywallCache:
             The response from Unpaywall.
         """
         record = None
-        if (doi not in self.content) or self.timed_out(doi) or force:
+        if (doi not in self.content) or self.timed_out(doi) or ignore_cache:
             downloaded = self.download(doi, errors)
             if downloaded:
                 self.access_times[doi] = time.time()
                 self.content[doi] = downloaded
                 self.save()
-                record = deepcopy(self.content[doi])
+                record = downloaded
+        else:
+            record = deepcopy(self.content[doi])
         return record
 
     def save(self, name=None):
