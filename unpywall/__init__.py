@@ -18,21 +18,24 @@ class Unpywall:
         pandas DataFrame.
     """
 
-    api_limit = 100000
+    api_limit: int = 100000
 
     @staticmethod
-    def _validate_dois(dois):
+    def _validate_dois(dois: list) -> list:
         """
         This method accepts a list of DOIs and returns a cleaned version of it.
         Raises an error if the desired input is not given.
+
         Parameters
         ----------
         dois : list
             A list of DOIs. Each DOI should be represented as a string.
+
         Returns
         -------
         list
             A list of DOIs.
+
         Raises
         ------
         ValueError
@@ -53,7 +56,7 @@ class Unpywall:
         return dois
 
     @staticmethod
-    def _progress(progress):
+    def _progress(progress: float) -> None:
         """
         This method prints out the current progress status of an API call.
 
@@ -73,7 +76,9 @@ class Unpywall:
         time.sleep(0.1)
 
     @staticmethod
-    def get_df(dois, progress=False, errors='raise'):
+    def get_df(dois: list,
+               progress: bool = False,
+               errors: str = 'raise') -> pd.DataFrame:
         """
         Parses information from the Unpaywall API service and returns it as
         a pandas DataFrame.
@@ -83,7 +88,7 @@ class Unpywall:
         dois : list
             A list of DOIs.
         progress : bool
-            Whether the progress of the API call should be printed out.
+            Whether the progress of the API call should be printed out or not.
         errors : str
             Either 'raise' or 'ignore'. If the parameter errors is set to
             'ignore' than errors will not raise an exception.
@@ -136,13 +141,13 @@ class Unpywall:
         return df
 
     @staticmethod
-    def get_json(doi, errors):
+    def get_json(doi: str, errors: str):
         """
         This function returns all information in Unpaywall about the given DOI.
 
         Parameters
         ----------
-        doi: str
+        doi : str
             The DOI of the requested paper.
 
         Returns
@@ -157,7 +162,7 @@ class Unpywall:
         return r.json()
 
     @staticmethod
-    def get_pdf_link(doi, errors='raise'):
+    def get_pdf_link(doi: str, errors: str = 'raise'):
         """
         This function returns a link to the an OA pdf (if available).
 
@@ -178,14 +183,14 @@ class Unpywall:
             return None
 
     @staticmethod
-    def get_doc_link(doi, errors='raise'):
+    def get_doc_link(doi: str, errors: str = 'raise'):
         """
         This function returns a link to the best OA location
         (not necessarily a PDF).
 
         Parameters
         ----------
-        doi: str
+        doi : str
             The DOI of the requested paper.
 
         Returns
@@ -200,14 +205,14 @@ class Unpywall:
             return None
 
     @staticmethod
-    def get_all_links(doi, errors='raise'):
+    def get_all_links(doi: str, errors: str = 'raise') -> list:
         """
         This function returns a list of URLs for all open-access copies
         listed in Unpaywall.
 
         Parameters
         ----------
-        doi: str
+        doi : str
             The DOI of the requested paper.
 
         Returns
@@ -223,13 +228,13 @@ class Unpywall:
         return data
 
     @staticmethod
-    def download_pdf_handle(doi, errors='raise'):
+    def download_pdf_handle(doi: str, errors: str = 'raise'):
         """
         This function returns a file-like object containing the requested PDF.
 
         Parameters
         ----------
-        doi: str
+        doi : str
             The DOI of the requested paper.
 
         Returns
