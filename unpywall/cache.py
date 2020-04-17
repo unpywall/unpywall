@@ -5,6 +5,7 @@ import os
 import time
 import warnings
 
+
 class UnpywallCache:
     """
     This class stores query results from Unpaywall.
@@ -84,6 +85,7 @@ class UnpywallCache:
             is_timed_out = False
         else:
             is_timed_out = time.time() > self.access_times[doi] + self.timeout
+        return is_timed_out
 
     def get(self, doi, errors='raise', ignore_cache=False):
         """
@@ -122,7 +124,8 @@ class UnpywallCache:
         Parameters
         ----------
         name : str or None
-            The filename that the cache will be saved to. If None, self.name will be used.
+            The filename that the cache will be saved to.
+            If None, self.name will be used.
         """
         if not name:
             name = self.name
@@ -138,7 +141,8 @@ class UnpywallCache:
         Parameters
         ----------
         name : str or None
-            The filename that the cache will be loaded from. If None, self.name will be used.
+            The filename that the cache will be loaded from.
+            If None, self.name will be used.
         """
         if not name:
             name = self.name
@@ -187,5 +191,6 @@ class UnpywallCache:
                 raise Timeout
 
         warnings.warn("Could not download doi: {}".format(doi))
+
 
 cache = UnpywallCache()
