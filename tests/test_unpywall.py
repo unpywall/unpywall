@@ -83,12 +83,15 @@ class TestUnpywall:
 class TestUnpywallCache
 
     @pytest.fixture
-    def make_cache(self):
+    def example_cache(self):
         shutil.copyfile("example_cache","test_cache")
         cache = UnpywallCache("test_cache")
-        assert cache.dois != {}
-        assert cache.dois != {}
+        assert cache.content != {}
+        assert cache.access_times != {}
         return cache
 
     def test_reset_cache(self):
-        cache = self.make_cache()
+        cache = example_cache()
+        cache.reset_cache()
+        assert cache.content == {}
+        assert cache.access_times == {}
