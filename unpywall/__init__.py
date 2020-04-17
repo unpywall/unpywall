@@ -154,7 +154,10 @@ class Unpywall:
         from .cache import cache
 
         r = cache.get(doi, errors, ignore_cache)
-        return r.json()
+        if r:
+            return r.json()
+        else:
+            return None
 
     @staticmethod
     def get_pdf_link(doi, errors='raise'):
