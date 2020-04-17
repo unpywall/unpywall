@@ -75,6 +75,9 @@ class Unpywall:
         print(text, end='\r', flush=False, file=sys.stdout)
         time.sleep(0.1)
 
+        if progress == 1:
+            print('\n', file=sys.stdout)
+
     @staticmethod
     def get_df(dois: list,
                progress: bool = False,
@@ -137,9 +140,6 @@ class Unpywall:
                     raise AttributeError('Unpaywall API did not return json')
                 else:
                     continue
-
-        if progress:
-            print('\n')
 
         return df
 

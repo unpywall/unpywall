@@ -5,6 +5,7 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/unpywall)](https://pypi.org/project/unpywall/)
 [![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpywall/blob/master/LICENSE.txt)
 [![PyPI - Version](https://img.shields.io/pypi/v/unpywall)](https://pypi.org/project/unpywall/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/unpywall)](https://pypi.org/project/unpywall/)
 
 ## Introduction
 
@@ -61,7 +62,7 @@ You can track the progress of your API call by setting the parameter `progress` 
 ```python
 Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
                 progress=True)
-                
+
 #|=========================                        | 50%
 ```
 
@@ -113,5 +114,5 @@ Unpywall.get_json(doi='10.1038/nature12373')
 To install unpywall, along with dev tools, run:
 
 ```python
-pip install -e .[dev]
+pip install unpywall['dev']
 ```

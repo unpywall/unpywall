@@ -29,6 +29,11 @@ setup(name='unpywall',
             'coverage'
        ]
       },
+      entry_points={
+        'console_scripts': [
+            'unpywall = unpywall.__main__:main'
+        ]
+      },
       classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',

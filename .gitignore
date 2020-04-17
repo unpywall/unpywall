@@ -4,3 +4,5 @@ __pycache__/
 *.coverage
 coverage.xml
 unpaywall_cache
+build/
+dist/
