@@ -5,6 +5,7 @@ from requests.exceptions import HTTPError
 
 from unpywall import Unpywall
 from unpywall.utils import UnpywallCredentials
+from unpywall.cache import UnpywallCache
 
 
 class TestUnpywall:
@@ -78,3 +79,16 @@ class TestUnpywall:
 
         assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
                                             'raise'), dict)
+
+class TestUnpywallCache
+
+    @pytest.fixture
+    def make_cache(self):
+        shutil.copyfile("example_cache","test_cache")
+        cache = UnpywallCache("test_cache")
+        assert cache.dois != {}
+        assert cache.dois != {}
+        return cache
+
+    def test_reset_cache(self):
+        cache = self.make_cache()
