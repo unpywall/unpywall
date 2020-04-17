@@ -64,3 +64,10 @@ class TestUnpywall:
                              errors='ignore')
 
         assert isinstance(df, pd.DataFrame)
+
+    def test_get_json(self):
+
+        with pytest.warns(UserWarning):
+            Unpywall.get_json("10.1016/j.tmaid")
+
+        assert isinstance(Unpywall.get_json("10.1016/j.tmaid.2020.101663"), dict)
