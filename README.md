@@ -48,6 +48,12 @@ unpywall uses the data analysis tool [pandas](https://pandas.pydata.org/) for ev
 from unpywall import Unpywall
 
 Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
+
+#   data_standard  ... best_oa_location.version
+#0              2  ...         publishedVersion
+#0              2  ...         publishedVersion
+
+#[2 rows x 32 columns]
 ```
 
 You can track the progress of your API call by setting the parameter `progress` to True. This is especially useful for estimating the time required.
@@ -55,6 +61,7 @@ You can track the progress of your API call by setting the parameter `progress` 
 ```python
 Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
                 progress=True)
+#|=========================                        | 50%
 ```
 
 The method also allows two options for catching errors (`raise` and `ignore`)
@@ -78,6 +85,7 @@ To return an URL to a PDF for the given DOI, use `get_pdf_link`.
 
 ```python
 Unpywall.get_pdf_link(doi='10.1038/nature12373')
+#'https://dash.harvard.edu/bitstream/1/12285462/1/Nanometer-Scale%20Thermometry.pdf'
 ```
 
 To return an URL to the best available OA copy, regardless of the format, use `get_doc_link`.

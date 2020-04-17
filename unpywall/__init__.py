@@ -138,10 +138,13 @@ class Unpywall:
                 else:
                     continue
 
+        if progress:
+            print('\n')
+
         return df
 
     @staticmethod
-    def get_json(doi: str, errors: str):
+    def get_json(doi: str, errors: str = 'raise'):
         """
         This function returns all information in Unpaywall about the given DOI.
 
