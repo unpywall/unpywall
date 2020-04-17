@@ -29,10 +29,17 @@ setup(name='unpywall',
             'coverage'
        ]
       },
+      entry_points={
+        'console_scripts': [
+            'unpywall = unpywall.__main__:main'
+        ]
+      },
       classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3'
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7'
       ],
       zip_safe=False)

@@ -30,12 +30,12 @@ class TestUnpywall:
 
         with pytest.raises(ValueError,
                            match='An email address is required in order to'
-                                 + 'work with the Unpaywall API'):
+                                 + ' work with the Unpaywall API'):
             assert UnpywallCredentials.validate_email(None)
 
         with pytest.raises(ValueError,
                            match='No valid email address entered.'
-                                 + 'Enter a valid email address'):
+                                 + ' Enter a valid email address'):
             assert UnpywallCredentials.validate_email(bad_email)
 
         with pytest.raises(ValueError, match='Do not use example.com'):
@@ -55,7 +55,7 @@ class TestUnpywall:
 
         with pytest.raises(ValueError,
                            match='The argument errors only accepts the'
-                                 + 'values "ignore" and "raise"'):
+                                 + ' values "ignore" and "raise"'):
             assert Unpywall.get_df(dois=['10.1038/nature12373'],
                                    progress=False,
                                    errors='skip')
