@@ -61,6 +61,7 @@ You can track the progress of your API call by setting the parameter `progress` 
 ```python
 Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
                 progress=True)
+                
 #|=========================                        | 50%
 ```
 
@@ -85,6 +86,7 @@ To return an URL to a PDF for the given DOI, use `get_pdf_link`.
 
 ```python
 Unpywall.get_pdf_link(doi='10.1038/nature12373')
+
 #'https://dash.harvard.edu/bitstream/1/12285462/1/Nanometer-Scale%20Thermometry.pdf'
 ```
 
