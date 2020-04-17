@@ -82,7 +82,7 @@ class UnpywallCache:
         else:
             is_timed_out = time.time() > self.access_times[doi] + self.timeout
 
-    def get(self, doi, errors='raise', force=False):
+    def get(self, doi, errors='raise', force=False, report=True):
         """
         Return the record for the given doi.
 
@@ -100,13 +100,14 @@ class UnpywallCache:
         record : requests.Response
             The response from Unpaywall.
         """
+        record = None
         if (doi not in self.content) or self.timed_out(doi) or force:
             downloaded = self.download(doi, errors)
             if downloaded:
                 self.access_times[doi] = time.time()
                 self.content[doi] = downloaded
                 self.save()
-        record = deepcopy(self.content[doi])
+                record = deepcopy(self.content[doi])
         return record
 
     def save(self, name=None):
@@ -179,5 +180,7 @@ class UnpywallCache:
         except requests.exceptions.Timeout as Timeout:
             if errors == 'raise':
                 raise Timeout
+
+        warnings.warn("Could not download doi: {}".format(doi))
 
 cache = UnpywallCache()

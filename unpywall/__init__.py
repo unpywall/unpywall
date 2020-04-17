@@ -73,7 +73,7 @@ class Unpywall:
         time.sleep(0.1)
 
     @staticmethod
-    def get_df(dois, progress=False, errors='raise'):
+    def get_df(dois, progress=False, errors='raise', ignore_cache=False):
         """
         Parses information from the Unpaywall API service and returns it as
         a pandas DataFrame.
@@ -136,7 +136,7 @@ class Unpywall:
         return df
 
     @staticmethod
-    def get_json(doi, errors):
+    def get_json(doi, errors, ignore_cache=False):
         """
         This function returns all information in Unpaywall about the given DOI.
 
@@ -153,7 +153,7 @@ class Unpywall:
         """
         from .cache import cache
 
-        r = cache.get(doi, errors)
+        r = cache.get(doi, errors, ignore_cache)
         return r.json()
 
     @staticmethod
