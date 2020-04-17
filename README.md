@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/unpywall/unpywall.svg?branch=master)](https://travis-ci.org/github/unpywall/unpywall)
 [![codecov.io](https://codecov.io/gh/unpywall/unpywall/branch/master/graph/badge.svg)](https://codecov.io/gh/unpywall/unpywall?branch=master)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/unpywall)](https://pypi.org/project/unpywall/)
-[![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpaywall-python/blob/master/LICENSE.txt)
+[![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpywall/blob/master/LICENSE.txt)
 [![PyPI - Version](https://img.shields.io/pypi/v/unpywall)](https://pypi.org/project/unpywall/)
 
 ## Introduction
@@ -69,28 +69,32 @@ Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
 If you are using Unpaywall to obtain full-text copies of papers for literature mining, you may benefit from the following functions:
 
 You can use the `download_pdf_handle` method to return a PDF handle for the given DOI.
-```
+
+```python
 Unpywall.download_pdf_handle(doi='10.1038/nature12373')
 ```
 
 To return an URL to a PDF for the given DOI, use `get_pdf_link`.
-```
+
+```python
 Unpywall.get_pdf_link(doi='10.1038/nature12373')
 ```
 
 To return an URL to the best available OA copy, regardless of the format, use `get_doc_link`.
-```
+
+```python
 Unpywall.get_doc_link(doi='10.1038/nature12373')
 ```
 
 To return a list of all URLS to OA copies, use `get_all_links`.
-```
+
+```python
 Unpywall.get_all_links(doi='10.1038/nature12373')
 ```
 
 You can also directly access all data provided by unpaywall in json format using `get_json`.
 
-```
+```python
 Unpywall.get_json(doi='10.1038/nature12373')
 ```
 
