@@ -1,6 +1,7 @@
 import pytest
 import pandas as pd
 import os
+from requests.exceptions import HTTPError
 
 from unpywall import Unpywall
 from unpywall.utils import UnpywallCredentials
@@ -64,3 +65,15 @@ class TestUnpywall:
                              errors='ignore')
 
         assert isinstance(df, pd.DataFrame)
+
+    def test_get_json(self):
+
+        os.environ['UNPAYWALL_EMAIL'] = 'bganglia892@gmail.com'
+
+        with pytest.raises(HTTPError):
+            Unpywall.get_json("10.1016/j.tmaid", "raise")
+
+        with pytest.warns(UserWarning):
+            Unpywall.get_json("10.1016/j.tmaid", "ignore")
+
+        assert isinstance(Unpywall.get_json("10.1016/j.tmaid.2020.101663", "raise"), dict)
