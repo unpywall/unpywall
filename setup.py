@@ -7,12 +7,11 @@ with open(path.join(dir, 'README.md'), encoding='utf-8') as file:
 
 
 setup(name='unpywall',
-      version='0.1.6',
+      version='0.1.7',
       description='Interfacing the Unpaywall Database with Python',
       long_description=long_description,
       long_description_content_type='text/markdown',
       url='https://github.com/unpywall/unpaywall-python',
-      download_url='',
       author='Nick Haupka, bganglia',
       author_email='nick.haupka@gmail.com, bganglia892@gmail.com',
       license='MIT',

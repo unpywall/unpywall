@@ -71,9 +71,10 @@ class TestUnpywall:
         os.environ['UNPAYWALL_EMAIL'] = 'bganglia892@gmail.com'
 
         with pytest.raises(HTTPError):
-            Unpywall.get_json("10.1016/j.tmaid", "raise")
+            Unpywall.get_json('10.1016/j.tmaid', 'raise')
 
         with pytest.warns(UserWarning):
-            Unpywall.get_json("10.1016/j.tmaid", "ignore")
+            Unpywall.get_json('10.1016/j.tmaid', 'ignore')
 
-        assert isinstance(Unpywall.get_json("10.1016/j.tmaid.2020.101663", "raise"), dict)
+        assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
+                                            'raise'), dict)
