@@ -101,9 +101,11 @@ class UnpywallCache:
             The response from Unpaywall.
         """
         if (doi not in self.content) or self.timed_out(doi) or force:
-            self.access_times[doi] = time.time()
-            self.content[doi] = self.download(doi, errors)
-            self.save()
+            downloaded = self.download(doi, errors)
+            if downloaded:
+                self.access_times[doi] = time.time()
+                self.content[doi] = downloaded
+                self.save()
         record = deepcopy(self.content[doi])
         return record
 
