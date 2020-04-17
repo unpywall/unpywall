@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+/*.egg-info
+*.coverage
+coverage.xml
+unpaywall_cache
+build/
