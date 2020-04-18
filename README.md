@@ -81,6 +81,8 @@ You can use the `download_pdf_handle` method to return a PDF handle for the give
 
 ```python
 Unpywall.download_pdf_handle(doi='10.1038/nature12373')
+
+#<http.client.HTTPResponse object at 0x7fd08ef677c0>
 ```
 
 To return an URL to a PDF for the given DOI, use `get_pdf_link`.
@@ -94,19 +96,24 @@ Unpywall.get_pdf_link(doi='10.1038/nature12373')
 To return an URL to the best available OA copy, regardless of the format, use `get_doc_link`.
 
 ```python
-Unpywall.get_doc_link(doi='10.1038/nature12373')
-```
+Unpywall.get_doc_link(doi='10.1016/j.envint.2020.105730')
 
+#'https://doi.org/10.1016/j.envint.2020.105730'
+```
 To return a list of all URLS to OA copies, use `get_all_links`.
 
 ```python
 Unpywall.get_all_links(doi='10.1038/nature12373')
+
+#['https://dash.harvard.edu/bitstream/1/12285462/1/Nanometer-Scale%20Thermometry.pdf']
 ```
 
 You can also directly access all data provided by unpaywall in json format using `get_json`.
 
 ```python
 Unpywall.get_json(doi='10.1038/nature12373')
+
+#{'best_oa_location': {'endpoint_id': '8c9d8ba370a84253deb', 'evidence': 'oa repository (via OAI-PMH doi match)', 'host_type': ...
 ```
 
 ## Develop
