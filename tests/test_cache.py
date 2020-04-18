@@ -26,3 +26,10 @@ class TestUnpywallCache:
         example_cache.reset_cache()
         assert example_cache.content == {}
         assert example_cache.access_times == {}
+
+    def test_delete(self, example_cache):
+        doi = "10.1016/j.jns.2020.116832"
+        example_cache.get(doi)
+        example_cache.delete(doi)
+        assert doi not in example_cache.content
+        assert doi not in example_cache.content
