@@ -22,7 +22,7 @@ class UnpywallCache:
 
     """
 
-    def __init__(self, timeout='never', name=None):
+    def __init__(self, name=None, timeout=None):
         """
         Create a cache object.
 
