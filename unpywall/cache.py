@@ -129,7 +129,7 @@ class UnpywallCache:
         """
         if not name:
             name = self.name
-        with open(self.name, 'wb') as handle:
+        with open(name, 'wb') as handle:
             pickle.dump({'content': self.content,
                          'access_times': self.access_times},
                         handle)
