@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 import os
 from requests.exceptions import HTTPError
+from shutil import copyfile
 
 from unpywall import Unpywall
 from unpywall.utils import UnpywallCredentials
@@ -80,18 +81,15 @@ class TestUnpywall:
         assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
                                             'raise'), dict)
 
-class TestUnpywallCache
+@pytest.fixture
+def example_cache():
+    copyfile("example_cache","test_cache")
+    cache = UnpywallCache("test_cache")
+    assert cache.content != {}
+    assert cache.access_times != {}
+    return cache
 
-    @pytest.fixture
-    def example_cache(self):
-        shutil.copyfile("example_cache","test_cache")
-        cache = UnpywallCache("test_cache")
-        assert cache.content != {}
-        assert cache.access_times != {}
-        return cache
-
-    def test_reset_cache(self):
-        cache = example_cache()
-        cache.reset_cache()
-        assert cache.content == {}
-        assert cache.access_times == {}
+def test_reset_cache(example_cache):
+    example_cache.reset_cache()
+    assert example_cache.content == {}
+    assert example_cache.access_times == {}
