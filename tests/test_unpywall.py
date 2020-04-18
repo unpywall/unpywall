@@ -81,10 +81,13 @@ class TestUnpywall:
         assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
                                             'raise'), dict)
 
+test_dir = os.path.abspath(os.path.dirname(__file__))
+
 @pytest.fixture
 def example_cache():
-    copyfile("example_cache","test_cache")
-    cache = UnpywallCache("test_cache")
+    copyfile(os.path.join(test_dir, "example_cache"),
+             os.path.join(test_dir, "test_cache"))
+    cache = UnpywallCache(os.path.join(test_dir, "test_cache"))
     assert cache.content != {}
     assert cache.access_times != {}
     return cache
