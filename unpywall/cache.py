@@ -40,7 +40,7 @@ class UnpywallCache:
         try:
             self.load(self.name)
         except FileNotFoundError:
-            print('No cache found')
+            warnings.warn('No cache found. A new cache was initialized.')
             self.reset_cache()
         self.timeout = timeout
 
@@ -87,7 +87,7 @@ class UnpywallCache:
             is_timed_out = time.time() > self.access_times[doi] + self.timeout
         return is_timed_out
 
-    def get(self, doi, errors='raise', ignore_cache=False):
+    def get(self, doi, errors='raise', force=False, ignore_cache=False):
         """
         Return the record for the given doi.
 
@@ -97,8 +97,10 @@ class UnpywallCache:
             The DOI to be retrieved.
         errors : str
             Whether to ignore or raise errors.
-        ignore_cache : bool
+        force : bool
             Whether to force the cache to retrieve a new entry.
+        ignore_cache : bool
+            Whether to use or ignore the cache.
 
         Returns
         -------
@@ -106,15 +108,19 @@ class UnpywallCache:
             The response from Unpaywall.
         """
         record = None
-        if (doi not in self.content) or self.timed_out(doi) or ignore_cache:
-            downloaded = self.download(doi, errors)
-            if downloaded:
-                self.access_times[doi] = time.time()
-                self.content[doi] = downloaded
-                self.save()
-                record = downloaded
+
+        if not ignore_cache:
+            if (doi not in self.content) or self.timed_out(doi) or force:
+                downloaded = self.download(doi, errors)
+                if downloaded:
+                    self.access_times[doi] = time.time()
+                    self.content[doi] = downloaded
+                    self.save()
+                    record = downloaded
+            else:
+                record = deepcopy(self.content[doi])
         else:
-            record = deepcopy(self.content[doi])
+            record = self.download(doi, errors)
         return record
 
     def save(self, name=None):
@@ -174,6 +180,7 @@ class UnpywallCache:
             r.raise_for_status()
             return r
 
+        # if DOI is invalid
         except requests.exceptions.HTTPError as HTTPError:
             if errors == 'raise':
                 raise HTTPError
@@ -182,10 +189,12 @@ class UnpywallCache:
             if errors == 'raise':
                 raise RequestException
 
+        # if bad internet connection
         except requests.exceptions.ConnectionError as ConnectionError:
             if errors == 'raise':
                 raise ConnectionError
 
+        # server is down
         except requests.exceptions.Timeout as Timeout:
             if errors == 'raise':
                 raise Timeout

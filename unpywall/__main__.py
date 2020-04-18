@@ -26,12 +26,14 @@ def main():
     ap.add_argument('method',
                     type=str,
                     metavar='method',
+                    choices=['pdf_link', 'download_pdf', 'view_pdf'],
                     help='\tThe method you want to use.')
     ap.add_argument('-b',
                     '--backend',
                     type=str,
                     default='remote',
                     dest='backend',
+                    choices=['remote', 'cache', 'snapshot'],
                     metavar='\b',
                     help='\tThe backend you want to use.')
     ap.add_argument('-e',
@@ -39,8 +41,29 @@ def main():
                     type=str,
                     default='raise',
                     dest='errors',
+                    choices=['raise', 'ignore'],
                     metavar='\b',
                     help='\tThe error behaviour you want to use.')
+    ap.add_argument('-f',
+                    '--filename',
+                    type=str,
+                    dest='filename',
+                    metavar='\b',
+                    help='\tThe filename for downloading a PDF.')
+    ap.add_argument('-m',
+                    '--mode',
+                    type=str,
+                    default='viewer',
+                    dest='mode',
+                    choices=['viewer', 'browser'],
+                    metavar='\b',
+                    help='\tThe mode for viewing a PDF.')
+    ap.add_argument('-p',
+                    '--path',
+                    type=str,
+                    dest='filepath',
+                    metavar='\b',
+                    help='\tThe filepath for downloading a PDF.')
     ap.add_argument('-h',
                     '--help',
                     action='help',
@@ -50,10 +73,19 @@ def main():
     args = ap.parse_args()
 
     doi = args.doi
-    errors = args.errors
 
-    if args.method == 'get_pdf':
-        print(Unpywall.get_pdf_link(doi, errors))
+    if args.method == 'pdf_link':
+        print(Unpywall.get_pdf_link(doi))
+
+    if args.method == 'download_pdf':
+        try:
+            Unpywall.download_pdf_file(doi, args.filename, args.filepath)
+            print('File was successfully downloaded.')
+        except Exception:
+            print('Could not download file.')
+
+    if args.method == 'view_pdf':
+        Unpywall.view_pdf(doi, mode=args.mode)
 
 
 if __name__ == '__main__':
