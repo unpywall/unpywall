@@ -6,8 +6,6 @@ from shutil import copyfile
 
 from unpywall import Unpywall
 from unpywall.utils import UnpywallCredentials
-from unpywall.cache import UnpywallCache
-
 
 class TestUnpywall:
 
@@ -80,20 +78,3 @@ class TestUnpywall:
 
         assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
                                             'raise'), dict)
-
-test_dir = os.path.abspath(os.path.dirname(__file__))
-
-class TestUnpywallCache:
-    @pytest.fixture
-    def example_cache(self):
-        copyfile(os.path.join(test_dir, "example_cache"),
-                 os.path.join(test_dir, "test_cache"))
-        cache = UnpywallCache(os.path.join(test_dir, "test_cache"))
-        assert cache.content != {}
-        assert cache.access_times != {}
-        return cache
-
-    def test_reset_cache(self, example_cache):
-        example_cache.reset_cache()
-        assert example_cache.content == {}
-        assert example_cache.access_times == {}
