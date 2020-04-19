@@ -6,6 +6,7 @@ test_dir = os.path.abspath(os.path.dirname(__file__))
 from unpywall.cache import UnpywallCache
 from unpywall.utils import UnpywallCredentials
 from requests.exceptions import HTTPError
+from requests import Response
 from shutil import copyfile
 
 global_email = "bganglia892@gmail.com"
@@ -32,7 +33,7 @@ class TestUnpywallCache:
         doi = "10.1016/j.jns.2020.116832"
         example_cache.delete(doi)
         assert doi not in example_cache.content
-        assert doi not in example_cache.content
+        assert doi not in example_cache.access_times
 
     def test_timeout(self, example_cache):
         timeout = 1
@@ -42,3 +43,9 @@ class TestUnpywallCache:
         example_cache.get(doi)
         time.sleep(timeout)
         assert example_cache.timed_out(doi)
+
+    def test_get(self, example_cache):
+        doi = "10.1016/j.jns.2020.116832"
+        assert doi not in example_cache.content
+        assert doi not in example_cache.access_times
+        assert isinstance(example_cache.get(doi), Response)
