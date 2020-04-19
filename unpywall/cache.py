@@ -40,7 +40,7 @@ class UnpywallCache:
         try:
             self.load(self.name)
         except FileNotFoundError:
-            warnings.warn('No cache found. A new cache was initialized.')
+            print('No cache found. A new cache was initialized.')
             self.reset_cache()
         self.timeout = timeout
 

@@ -1,12 +1,12 @@
-import urllib.request
 import requests
 import pandas as pd
-import time
 import sys
 import subprocess
 import tempfile
 import webbrowser
 import os
+import platform
+import urllib.request
 
 
 class Unpywall:
@@ -77,7 +77,6 @@ class Unpywall:
                                    int(progress * 100))
 
         print(text, end='\r', flush=False, file=sys.stdout)
-        time.sleep(0.1)
 
         if progress == 1:
             print('\n', file=sys.stdout)
@@ -194,7 +193,7 @@ class Unpywall:
     @staticmethod
     def get_pdf_link(doi: str):
         """
-        This function returns a link to the an OA pdf (if available).
+        This function returns a link to an OA pdf (if available).
 
         Parameters
         ----------
@@ -276,7 +275,9 @@ class Unpywall:
         return urllib.request.urlopen(pdf_link)
 
     @staticmethod
-    def view_pdf(doi: str, mode: str = 'viewer') -> None:
+    def view_pdf(doi: str,
+                 mode: str = 'viewer',
+                 progress: bool = False) -> None:
         """
         This function opens a local copy of a PDF from a given DOI.
 
@@ -286,25 +287,45 @@ class Unpywall:
             The DOI of the requested paper.
         mode : str
             The mode for viewing a PDF.
+        progress : bool
+            Whether the progress of the API call should be printed out or not.
         """
 
         url = Unpywall.get_pdf_link(doi)
         r = requests.get(url, stream=url)
+        file_size = int(r.headers.get('content-length', 0))
+        block_size = 1024
 
         if mode == 'viewer':
 
-            tmp = tempfile.NamedTemporaryFile(delete=False)
+            tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
 
             with open(tmp.name, 'wb') as file:
-                file.write(r.content)
+                chunk_size = 0
+                for chunk in r.iter_content(block_size):
+                    if progress:
+                        chunk_size += len(chunk)
+                        Unpywall._progress(chunk_size/file_size)
+                    file.write(chunk)
 
-                subprocess.run(['open', tmp.name], check=True)
+                # macOS
+                if platform.system() == 'Darwin':
+                    subprocess.run(['open', tmp.name], check=True)
+                # Windows
+                elif platform.system() == 'Windows':
+                    os.startfile(tmp.name)
+                # Linux
+                else:
+                    subprocess.run(['xdg-open', tmp.name], check=True)
 
         else:
             webbrowser.open_new(url)
 
     @staticmethod
-    def download_pdf_file(doi: str, filename: str, filepath: str) -> None:
+    def download_pdf_file(doi: str,
+                          filename: str,
+                          filepath: str = '.',
+                          progress: bool = False) -> None:
         """
         This function downloads a PDF from a given DOI.
 
@@ -316,10 +337,14 @@ class Unpywall:
             The filename for the PDF.
         filepath : str
             The path to store the downloaded PDF.
+        progress : bool
+            Whether the progress of the API call should be printed out or not.
         """
 
         url = Unpywall.get_pdf_link(doi)
         r = requests.get(url, stream=url)
+        file_size = int(r.headers.get('content-length', 0))
+        block_size = 1024
 
         path = os.path.join(filepath, filename)
 
@@ -327,4 +352,9 @@ class Unpywall:
             os.makedirs(filepath)
 
         with open(path, 'wb') as file:
-            file.write(r.content)
+            chunk_size = 0
+            for chunk in r.iter_content(block_size):
+                if progress:
+                    chunk_size += len(chunk)
+                    Unpywall._progress(chunk_size/file_size)
+                file.write(chunk)
