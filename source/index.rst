@@ -19,5 +19,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. autodoc:: unpywall
+.. automodule:: unpywall
    :members:
