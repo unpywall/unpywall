@@ -1,5 +1,6 @@
 import pytest
 import os
+import time
 test_dir = os.path.abspath(os.path.dirname(__file__))
 
 from unpywall.cache import UnpywallCache
@@ -29,7 +30,15 @@ class TestUnpywallCache:
 
     def test_delete(self, example_cache):
         doi = "10.1016/j.jns.2020.116832"
-        example_cache.get(doi)
         example_cache.delete(doi)
         assert doi not in example_cache.content
         assert doi not in example_cache.content
+
+    def test_timeout(self, example_cache):
+        timeout = 1
+        doi = "10.1016/j.jns.2020.116832"
+        example_cache.timeout = timeout
+        assert doi not in example_cache.content
+        example_cache.get(doi)
+        time.sleep(timeout)
+        assert example_cache.timed_out(doi)
