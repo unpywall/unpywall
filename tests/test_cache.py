@@ -62,3 +62,7 @@ class TestUnpywallCache:
         os.remove(saved_cache_name)
         assert doi in example_cache.content
         assert doi in example_cache.access_times
+
+    def test_download(self, example_cache):
+        doi = "10.1016/j.jns.2020.116832"
+        assert isinstance(example_cache.download(doi, "raise"), Response)
