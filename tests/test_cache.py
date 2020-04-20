@@ -1,3 +1,4 @@
+
 import pytest
 import os
 import time
@@ -50,12 +51,14 @@ class TestUnpywallCache:
         assert doi not in example_cache.access_times
         assert isinstance(example_cache.get(doi), Response)
 
-    def test_save(self, example_cache):
+    def test_save_load(self, example_cache):
         doi = "10.1016/j.jns.2020.116832"
         assert doi not in example_cache.content
         assert doi not in example_cache.access_times
         example_cache.get(doi)
-        example_cache.save("saved_cache")
-        saved_cache = UnpaywallCache("saved_cache")
+        saved_cache_name = str(time.time())
+        example_cache.save(saved_cache_name)
+        saved_cache = UnpywallCache(saved_cache_name)
+        os.remove(saved_cache_name)
         assert doi in example_cache.content
         assert doi in example_cache.access_times
