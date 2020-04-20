@@ -6,7 +6,7 @@ import tempfile
 import webbrowser
 import os
 import platform
-import urllib.request
+from io import BytesIO
 
 
 class Unpywall:
@@ -266,7 +266,8 @@ class Unpywall:
             The handle of the PDF file.
         """
         pdf_link = Unpywall.get_pdf_link(doi)
-        return urllib.request.urlopen(pdf_link)
+        r = requests.get(pdf_link)
+        return BytesIO(bytearray(r.text, encoding='utf-8'))
 
     @staticmethod
     def view_pdf(doi: str,
