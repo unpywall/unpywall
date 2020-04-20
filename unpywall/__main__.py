@@ -15,7 +15,8 @@ class UnpywallArgumentParser(ArgumentParser):
 
 class main:
 
-    def __init__(self) -> None:
+    def __init__(self, test_args=None) -> None:
+        self.test_args = test_args
         usage = textwrap.dedent("""unpywall <command> [<args>]
 
                 \nCommand-line tool for interfacing the Unpaywall API
@@ -43,8 +44,10 @@ class main:
                         action='help',
                         default=SUPPRESS,
                         help=SUPPRESS)
-
-        args = ap.parse_args(sys.argv[1:2])
+        if self.test_args:
+            args = ap.parse_args(self.test_args[0:1])
+        else:
+            args = ap.parse_args(sys.argv[1:2])
         if not hasattr(self, args.command):
             print('Unknown option: {}'.format(args.command))
             ap.print_help()
@@ -93,7 +96,10 @@ class main:
                         default=SUPPRESS,
                         help=SUPPRESS)
 
-        args = ap.parse_args(sys.argv[2:])
+        if self.test_args:
+            args = ap.parse_args(self.test_args[1:])
+        else:
+            args = ap.parse_args(sys.argv[2:])
 
         Unpywall.view_pdf(args.doi, args.mode, progress=args.progress)
 
@@ -142,7 +148,10 @@ class main:
                         default=SUPPRESS,
                         help=SUPPRESS)
 
-        args = ap.parse_args(sys.argv[2:])
+        if self.test_args:
+            args = ap.parse_args(self.test_args[1:])
+        else:
+            args = ap.parse_args(sys.argv[2:])
 
         try:
             Unpywall.download_pdf_file(args.doi,
@@ -177,7 +186,10 @@ class main:
                         default=SUPPRESS,
                         help=SUPPRESS)
 
-        args = ap.parse_args(sys.argv[2:])
+        if self.test_args:
+            args = ap.parse_args(self.test_args[1:])
+        else:
+            args = ap.parse_args(sys.argv[2:])
 
         print(Unpywall.get_pdf_link(args.doi))
 
