@@ -9,3 +9,9 @@ unpywall: Interfacing the Unpywall Database with Python
 
 .. automodule:: unpywall
    :members:
+
+.. automodule:: unpywall.cache
+   :members:
+
+.. automodule:: unpywall.utils
+   :members:
