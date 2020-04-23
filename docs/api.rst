@@ -27,3 +27,7 @@ Utils
 .. autoclass:: UnpywallCredentials
    :members:
    :inherited-members:
+
+.. autoclass:: UnpywallURL
+   :members:
+   :inherited-members:
