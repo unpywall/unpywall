@@ -5,3 +5,5 @@ __pycache__/
 coverage.xml
 unpaywall_cache
 build/
+dist/
+docs/_build/

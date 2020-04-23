@@ -1,3 +1,5 @@
+import alabaster
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -30,8 +32,9 @@ release = 'MIT'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.napoleon"
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'alabaster'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -49,10 +52,22 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'alabaster'
+html_theme_path = [alabaster.get_path()]
+html_theme_options = {
+    'github_repo': 'unpywall',
+    'github_user': 'unpywall',
+    'github_banner': True,
+    'github_button': False,
+    'extra_nav_links': {
+        'PyPi releases': 'https://pypi.org/project/unpywall',
+        'Source Code': 'https://github.com/unpywall/unpywall',
+        'Issue Tracker': 'https://github.com/unpywall/unpywall/issues'
+    }
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-master_doc = "index"
+master_doc = 'index'
