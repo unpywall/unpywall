@@ -18,7 +18,7 @@ setup(name='unpywall',
       packages=['unpywall'],
       keywords=['Unpaywall', 'Open Access', 'full text'],
       project_urls={
-        'Documentation': 'https://unpywall.readthedocs.io/en/readthedocs/',
+        'Documentation': 'https://unpywall.readthedocs.io/en/latest/',
         'Source': 'https://github.com/unpywall/unpywall',
         'Tracker': 'https://github.com/unpywall/unpywall/issues'
       },
