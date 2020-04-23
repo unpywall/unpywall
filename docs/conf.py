@@ -58,11 +58,20 @@ html_theme_options = {
     'github_user': 'unpywall',
     'github_banner': True,
     'github_button': False,
+    'description': 'Retrieve Metadata from Open Access publiations',
+    'description_font_style': 'italic',
     'extra_nav_links': {
         'PyPi releases': 'https://pypi.org/project/unpywall',
         'Source Code': 'https://github.com/unpywall/unpywall',
         'Issue Tracker': 'https://github.com/unpywall/unpywall/issues'
     }
+}
+
+html_sidebars = {
+    '**': ['about.html',
+           'globaltoc.html',
+           'project-links.html',
+           'searchbox.html']
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

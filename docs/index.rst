@@ -1,5 +1,19 @@
-unpywall: Interfacing the Unpywall Database with Python
-=======================================================
+unpywall: Interfacing the Unpaywall Database with Python
+========================================================
+
+Welcome to unpywall’s documentation. unpywall is a Python client that interacts
+with the `Unpaywall database <https://unpaywall.org/>`_, a collection of metadata
+information about millions of free scholarly articles, harvested from over 50,000 journals
+and repositories [1]_.
+
+To get started, we recommend to read the :doc:`foreword` if you want to know more
+about the project scope or further background information on Unpaywall. Otherwise,
+checkout the :doc:`quickstart` guide.
+
+unpywall depends on the data analysis tool `pandas <https://pandas.pydata.org/pandas-docs/stable/index.html/>`_
+and on the HTTP library `requests <https://requests.readthedocs.io/en/master/>`_.
+
+Also, unpywall supports Python 3.5 and newer.
 
 User's Guide
 ------------
@@ -22,3 +36,7 @@ API Reference
    :maxdepth: 2
 
    api
+
+.. rubric:: References
+
+.. [1] https://unpaywall.org/sources
