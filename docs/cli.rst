@@ -16,23 +16,23 @@ Basic commands
 Obtain a PDF URL
 ~~~~~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
-  $ unpywall link 10.1038/nature12373 -f article.pdf -p ./documents
+  $ unpywall link 10.1038/nature12373
 
 View a PDF
 ~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
   $ unpywall view 10.1038/nature12373 -m browser
 
 PDF Download
 ~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: text
 
-    $ unpywall download 10.1038/nature12373
+    $ unpywall download 10.1038/nature12373 -f article.pdf -p ./documents
 
 Help
 ~~~~
