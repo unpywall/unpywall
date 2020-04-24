@@ -2,10 +2,9 @@ import pytest
 import pandas as pd
 import os
 from requests.exceptions import HTTPError
-from shutil import copyfile
 
 from unpywall import Unpywall
-from unpywall.utils import UnpywallCredentials
+
 
 class TestUnpywall:
 
@@ -23,32 +22,6 @@ class TestUnpywall:
 
         assert Unpywall._validate_dois(correct_dois) == correct_dois
 
-    def test_validate_email(self):
-
-        correct_email = 'nick.haupka@gmail.de'
-        bad_email = 'https://github.com/naustica/unpywall'
-
-        with pytest.raises(ValueError,
-                           match='An email address is required in order to'
-                                 + ' work with the Unpaywall API'):
-            assert UnpywallCredentials.validate_email(None)
-
-        with pytest.raises(ValueError,
-                           match='No valid email address entered.'
-                                 + ' Enter a valid email address'):
-            assert UnpywallCredentials.validate_email(bad_email)
-
-        with pytest.raises(ValueError, match='Do not use example.com'):
-            assert UnpywallCredentials \
-                    .validate_email('nick.haupka@example.com')
-
-        assert UnpywallCredentials.validate_email(
-                                        correct_email) == correct_email
-
-    def test_fetch(self):
-        pass
-
-    @pytest.fixture
     def test_get_df(self):
 
         os.environ['UNPAYWALL_EMAIL'] = 'nick.haupka@gmail.com'

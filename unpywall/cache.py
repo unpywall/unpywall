@@ -81,7 +81,7 @@ class UnpywallCache:
         is_timed_out : bool
             Whether the given entry has timed out.
         """
-        if self.timeout == 'never':
+        if not self.timeout:
             is_timed_out = False
         else:
             is_timed_out = time.time() > self.access_times[doi] + self.timeout
