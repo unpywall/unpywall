@@ -48,32 +48,32 @@ class TestUnpywall:
     def test_get_json(self):
 
         with pytest.raises(HTTPError):
-            Unpywall.get_json('10.1016/j.tmaid', 'raise')
+            Unpywall.get_json('10.1016/j.tmaid', errors='raise')
 
         with pytest.warns(UserWarning):
-            Unpywall.get_json('10.1016/j.tmaid', 'ignore')
+            Unpywall.get_json('10.1016/j.tmaid', errors='ignore')
 
         assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
-                                            'raise'), dict)
+                                            errors='raise'), dict)
 
     def test_get_pdf_link(self):
 
         assert isinstance(Unpywall.get_pdf_link('10.1038/nature12373',
-                                                'raise'), str)
+                                                errors='raise'), str)
         with pytest.warns(UserWarning):
             assert Unpywall.get_pdf_link('a bad doi',
-                                         'ignore') is None
+                                         errors='ignore') is None
 
     def test_get_doc_link(self):
 
         assert isinstance(Unpywall.get_doc_link('10.1016/j.tmaid.2020.101663',
-                                                'raise'), str)
+                                                errors='raise'), str)
 
         with pytest.warns(UserWarning):
             assert Unpywall.get_doc_link('a bad doi',
-                                         'ignore') is None
+                                         errors='ignore') is None
 
     def test_get_all_links(self):
 
         assert isinstance(Unpywall.get_all_links('10.1016/j.tmaid.2020.101663',
-                                                 'raise'), list)
+                                                 errors='raise'), list)
