@@ -11,13 +11,13 @@ class TestUnpywallCredentials:
         bad_email = 'https://github.com/naustica/unpywall'
 
         with pytest.raises(ValueError,
-                           match='An email address is required in order to'
-                                 + ' work with the Unpaywall API'):
+                           match=('An email address is required in order'
+                                  ' to work with the Unpaywall API')):
             assert UnpywallCredentials.validate_email(None)
 
         with pytest.raises(ValueError,
-                           match='No valid email address entered.'
-                                 + ' Enter a valid email address'):
+                           match=('No valid email address entered.'
+                                  ' Enter a valid email address')):
             assert UnpywallCredentials.validate_email(bad_email)
 
         with pytest.raises(ValueError, match='Do not use example.com'):
@@ -26,6 +26,8 @@ class TestUnpywallCredentials:
 
         assert UnpywallCredentials.validate_email(
                                         correct_email) == correct_email
+
+        assert isinstance(repr(UnpywallCredentials(correct_email)), str)
 
         assert isinstance(UnpywallCredentials(correct_email).email, str)
 

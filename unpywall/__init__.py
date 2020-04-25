@@ -115,7 +115,7 @@ class Unpywall:
 
         if errors != 'ignore' and errors != 'raise':
             raise ValueError('The argument errors only accepts the'
-                             + ' values "ignore" and "raise"')
+                             ' values "ignore" and "raise"')
 
         df = pd.DataFrame()
 

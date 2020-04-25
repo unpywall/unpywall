@@ -58,12 +58,12 @@ class UnpywallCredentials:
         email_regex = r'^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$'
 
         if email is None:
-            raise ValueError('An email address is required in order to'
-                             + ' work with the Unpaywall API')
+            raise ValueError(('An email address is required in order'
+                              ' to work with the Unpaywall API'))
 
         if not re.match(email_regex, email):
-            raise ValueError('No valid email address entered.'
-                             + ' Enter a valid email address')
+            raise ValueError(('No valid email address entered. Enter a'
+                              ' valid email address'))
 
         if 'example.com' in email:
             raise ValueError('Do not use example.com')

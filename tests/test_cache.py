@@ -7,20 +7,20 @@ from shutil import copyfile
 from unpywall.cache import UnpywallCache
 from unpywall.utils import UnpywallCredentials
 
-test_dir = os.path.abspath(os.path.dirname(__file__))
-
-global_email = 'bganglia892@gmail.com'
-
 
 class TestUnpywallCache:
+
+    test_dir = os.path.abspath(os.path.dirname(__file__))
+
     @pytest.fixture
     def example_cache(self):
 
-        UnpywallCredentials(global_email)
+        UnpywallCredentials('bganglia892@gmail.com')
 
-        copyfile(os.path.join(test_dir, 'example_cache'),
-                 os.path.join(test_dir, 'test_cache'))
-        cache = UnpywallCache(os.path.join(test_dir, 'test_cache'))
+        copyfile(os.path.join(TestUnpywallCache.test_dir, 'example_cache'),
+                 os.path.join(TestUnpywallCache.test_dir, 'test_cache'))
+        cache = UnpywallCache(os.path.join(TestUnpywallCache.test_dir,
+                                           'test_cache'))
         assert cache.content != {}
         assert cache.access_times != {}
         return cache
