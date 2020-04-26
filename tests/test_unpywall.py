@@ -58,22 +58,14 @@ class TestUnpywall:
 
     def test_get_pdf_link(self):
 
-        assert isinstance(Unpywall.get_pdf_link('10.1038/nature12373',
-                                                errors='raise'), str)
-        with pytest.warns(UserWarning):
-            assert Unpywall.get_pdf_link('a bad doi',
-                                         errors='ignore') is None
+        assert isinstance(Unpywall.get_pdf_link('10.1038/nature12373'), str)
 
     def test_get_doc_link(self):
 
-        assert isinstance(Unpywall.get_doc_link('10.1016/j.tmaid.2020.101663',
-                                                errors='raise'), str)
-
-        with pytest.warns(UserWarning):
-            assert Unpywall.get_doc_link('a bad doi',
-                                         errors='ignore') is None
+        assert isinstance(
+                Unpywall.get_doc_link('10.1016/j.tmaid.2020.101663'), str)
 
     def test_get_all_links(self):
 
-        assert isinstance(Unpywall.get_all_links('10.1016/j.tmaid.2020.101663',
-                                                 errors='raise'), list)
+        assert isinstance(
+                Unpywall.get_all_links('10.1016/j.tmaid.2020.101663'), list)

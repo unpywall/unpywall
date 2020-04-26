@@ -6,5 +6,4 @@ python:
 install:
   - pip install -e .
 script:
-  - py.test tests/test_unpywall.py
-  - py.test tests/test_cache.py
+  - pytest

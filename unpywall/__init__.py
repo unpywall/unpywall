@@ -4,6 +4,8 @@ import json
 import time
 import sys
 
+from .cache import cache
+
 
 class Unpywall:
     """
@@ -164,8 +166,6 @@ class Unpywall:
             A JSON data structure containing all information
             returned by Unpaywall about the given DOI.
         """
-        from .cache import cache
-
         r = cache.get(doi, errors, ignore_cache)
         if r:
             return r.json()
