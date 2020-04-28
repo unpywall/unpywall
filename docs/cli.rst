@@ -1,7 +1,7 @@
 Command-Line-Interface
 ======================
 
-unpywall comes also with a command-line-interface that can be used to quickly
+unpywall comes with a command-line-interface that can be used to quickly
 look up a PDF or to download free full-text articles to your device.
 
 First of all, you need to set up your credentials to access the Unpaywall service.

@@ -10,12 +10,6 @@ class Unpywall:
     Base class that contains useful functions for retrieving information
     from the Unpaywall REST API (https://api.unpaywall.org). This client uses
     version 2 of the API.
-
-    Methods
-    -------
-    get_df(dois, progress, errors)
-        Retrieves information from the Unpaywall API service and returns a
-        pandas DataFrame.
     """
 
     api_limit: int = 100000
