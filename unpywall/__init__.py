@@ -7,6 +7,7 @@ import webbrowser
 import os
 import platform
 from io import BytesIO
+from functools import reduce
 
 
 class Unpywall:
@@ -77,10 +78,11 @@ class Unpywall:
 
     @staticmethod
     def get_df(dois: list,
+               format: str = 'raw',
                progress: bool = False,
                errors: str = 'raise',
                force: bool = False,
-               ignore_cache: bool = True) -> pd.DataFrame:
+               ignore_cache: bool = False) -> pd.DataFrame:
         """
         Parses information from the Unpaywall API service and returns it as
         a pandas DataFrame.
@@ -89,6 +91,8 @@ class Unpywall:
         ----------
         dois : list
             A list of DOIs.
+        format: str
+            The format of the DataFrame.
         progress : bool
             Whether the progress of the API call should be printed out or not.
         errors : str
@@ -113,9 +117,13 @@ class Unpywall:
 
         dois = Unpywall._validate_dois(dois)
 
-        if errors != 'ignore' and errors != 'raise':
+        if format not in ['raw', 'long_format']:
+            raise ValueError('The argument format only accepts the'
+                             ' values "raw" and "long_format"')
+
+        if errors not in ['ignore', 'raise']:
             raise ValueError('The argument errors only accepts the'
-                             + ' values "ignore" and "raise"')
+                             ' values "ignore" and "raise"')
 
         df = pd.DataFrame()
 
@@ -133,7 +141,37 @@ class Unpywall:
             if not bool(r):
                 continue
 
-            df2 = pd.json_normalize(data=r, max_level=1, errors=errors)
+            if format == 'long_format':
+
+                doi_object = pd.json_normalize(data=r,
+                                               max_level=1,
+                                               errors=errors)
+
+                doi_object.drop(columns=['oa_locations',
+                                         'z_authors'],
+                                errors=errors,
+                                inplace=True)
+
+                oa_locations = pd.json_normalize(
+                                        data=r,
+                                        errors=errors,
+                                        meta='doi',
+                                        record_path=['oa_locations'])
+
+                z_authors = pd.json_normalize(
+                                        data=r,
+                                        errors=errors,
+                                        meta='doi',
+                                        record_path=['z_authors'])
+
+                dfs = [doi_object, oa_locations, z_authors]
+                df2 = reduce(lambda left, right: pd.merge(left,
+                                                          right,
+                                                          how='outer',
+                                                          on='doi'), dfs)
+
+            else:
+                df2 = pd.json_normalize(data=r, max_level=1, errors=errors)
 
             df = df.append(df2)
 
