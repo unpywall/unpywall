@@ -119,9 +119,9 @@ class Unpywall:
 
         dois = Unpywall._validate_dois(dois)
 
-        if format not in ['raw', 'long_format']:
+        if format not in ['raw', 'extended']:
             raise ValueError('The argument format only accepts the'
-                             ' values "raw" and "long_format"')
+                             ' values "raw" and "extended"')
 
         if errors not in ['ignore', 'raise']:
             raise ValueError('The argument errors only accepts the'
@@ -143,7 +143,7 @@ class Unpywall:
             if not bool(r):
                 continue
 
-            if format == 'long_format':
+            if format == 'extended':
 
                 doi_object = pd.json_normalize(data=r,
                                                max_level=1,

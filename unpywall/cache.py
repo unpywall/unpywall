@@ -22,7 +22,7 @@ class UnpywallCache:
 
     """
 
-    def __init__(self, name=None, timeout=None):
+    def __init__(self, name: str = None, timeout=None) -> None:
         """
         Create a cache object.
 
@@ -44,7 +44,7 @@ class UnpywallCache:
             self.reset_cache()
         self.timeout = timeout
 
-    def reset_cache(self):
+    def reset_cache(self) -> None:
         """
         Set the cache to a blank state.
         """
@@ -52,7 +52,7 @@ class UnpywallCache:
         self.access_times = {}
         self.save()
 
-    def delete(self, doi):
+    def delete(self, doi: str) -> None:
         """
         Remove an individual doi from the cache.
 
@@ -67,7 +67,7 @@ class UnpywallCache:
             del self.content[doi]
         self.save()
 
-    def timed_out(self, doi):
+    def timed_out(self, doi: str) -> bool:
         """
         Return whether the record for the given doi has expired.
 
@@ -87,7 +87,8 @@ class UnpywallCache:
             is_timed_out = time.time() > self.access_times[doi] + self.timeout
         return is_timed_out
 
-    def get(self, doi, errors='raise', force=False, ignore_cache=False):
+    def get(self, doi: str, errors: str = 'raise',
+            force: bool = False, ignore_cache: bool = False):
         """
         Return the record for the given doi.
 
@@ -123,7 +124,7 @@ class UnpywallCache:
             record = self.download(doi, errors)
         return record
 
-    def save(self, name=None):
+    def save(self, name=None) -> None:
         """
         Save the current cache contents to a file.
 
@@ -140,7 +141,7 @@ class UnpywallCache:
                          'access_times': self.access_times},
                         handle)
 
-    def load(self, name=None):
+    def load(self, name=None) -> None:
         """
         Load the cache from a file.
 
@@ -157,7 +158,7 @@ class UnpywallCache:
         self.content = data['content']
         self.access_times = data['access_times']
 
-    def download(self, doi, errors):
+    def download(self, doi: str, errors: str):
         """
         Retrieve a record from Unpaywall.
 

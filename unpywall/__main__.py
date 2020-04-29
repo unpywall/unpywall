@@ -1,5 +1,6 @@
 from argparse import ArgumentParser, RawTextHelpFormatter, SUPPRESS
 import textwrap
+import uuid
 import sys
 
 from unpywall import Unpywall
@@ -59,8 +60,8 @@ class main:
 
     def view(self) -> None:
         ap = UnpywallArgumentParser(description=('This command opens a local'
-                                                 + ' copy of a PDF from a'
-                                                 + ' given DOI.'),
+                                                 ' copy of a PDF from a'
+                                                 ' given DOI.'),
                                     formatter_class=RawTextHelpFormatter,
                                     add_help=False)
         ap.add_argument('doi',
@@ -105,8 +106,8 @@ class main:
 
     def download(self) -> None:
         ap = UnpywallArgumentParser(description=('This command downloads a'
-                                                 + ' copy of a PDF from a'
-                                                 + ' given DOI.'),
+                                                 ' copy of a PDF from a'
+                                                 ' given DOI.'),
                                     formatter_class=RawTextHelpFormatter,
                                     add_help=False)
         ap.add_argument('doi',
@@ -118,7 +119,6 @@ class main:
                         type=str,
                         dest='filename',
                         metavar='\b',
-                        required=True,
                         help='\tThe filename for downloading a PDF.')
         ap.add_argument('-p',
                         '--path',
@@ -154,6 +154,8 @@ class main:
             args = ap.parse_args(sys.argv[2:])
 
         try:
+            if not args.filename:
+                args.filename = '{0}.pdf'.format(uuid.uuid4().hex)
             Unpywall.download_pdf_file(args.doi,
                                        filename=args.filename,
                                        filepath=args.filepath,
@@ -164,8 +166,8 @@ class main:
 
     def link(self) -> None:
         ap = UnpywallArgumentParser(description=('This command returns a link'
-                                                 + ' to an OA pdf'
-                                                 + ' (if available).'),
+                                                 ' to an OA pdf'
+                                                 ' (if available).'),
                                     formatter_class=RawTextHelpFormatter,
                                     add_help=False)
         ap.add_argument('doi',
