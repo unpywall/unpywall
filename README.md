@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpywall/blob/master/LICENSE.txt)
 [![PyPI - Version](https://img.shields.io/pypi/v/unpywall)](https://pypi.org/project/unpywall/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/unpywall)](https://pypi.org/project/unpywall/)
+[![Documentation Status](https://readthedocs.org/projects/unpywall/badge/?version=latest)](https://unpywall.readthedocs.io/en/latest/?badge=latest)
 
 ## Introduction
 

@@ -6,3 +6,5 @@ coverage.xml
 unpaywall_cache
 build/
 tests/test_cache
+dist/
+docs/_build/
