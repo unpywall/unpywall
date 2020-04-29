@@ -201,6 +201,3 @@ class UnpywallCache:
                 raise Timeout
 
         warnings.warn('Could not download doi: {}'.format(doi))
-
-
-cache = UnpywallCache()

@@ -8,3 +8,4 @@ build/
 tests/test_cache
 dist/
 docs/_build/
+!tests/unpaywall_cache

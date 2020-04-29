@@ -9,7 +9,7 @@ import platform
 from io import BytesIO
 from functools import reduce
 
-from .cache import cache
+from .cache import UnpywallCache
 
 
 class Unpywall:
@@ -20,6 +20,7 @@ class Unpywall:
     """
 
     api_limit: int = 100000
+    cache = UnpywallCache()
 
     @staticmethod
     def _validate_dois(dois: list) -> list:
@@ -213,10 +214,10 @@ class Unpywall:
         AttributeError
             If the Unpaywall API did not respond with json.
         """
-        r = cache.get(doi,
-                      errors=errors,
-                      force=force,
-                      ignore_cache=ignore_cache)
+        r = Unpywall.cache.get(doi,
+                               errors=errors,
+                               force=force,
+                               ignore_cache=ignore_cache)
         try:
             return r.json()
         except AttributeError:
