@@ -9,6 +9,8 @@ import platform
 from io import BytesIO
 from functools import reduce
 
+from .cache import cache
+
 
 class Unpywall:
     """
@@ -211,8 +213,6 @@ class Unpywall:
         AttributeError
             If the Unpaywall API did not respond with json.
         """
-        from .cache import cache
-
         r = cache.get(doi,
                       errors=errors,
                       force=force,
