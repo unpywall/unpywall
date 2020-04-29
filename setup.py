@@ -16,7 +16,12 @@ setup(name='unpywall',
       author_email='nick.haupka@gmail.com, bganglia892@gmail.com',
       license='MIT',
       packages=['unpywall'],
-      keywords=['Unpaywall'],
+      keywords=['Unpaywall', 'Open Access', 'full text'],
+      project_urls={
+        'Documentation': 'https://unpywall.readthedocs.io/en/latest/',
+        'Source': 'https://github.com/unpywall/unpywall',
+        'Tracker': 'https://github.com/unpywall/unpywall/issues'
+      },
       install_requires=[
         'pandas',
         'requests'
