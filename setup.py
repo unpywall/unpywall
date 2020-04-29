@@ -29,8 +29,9 @@ setup(name='unpywall',
       extras_require={
        'dev': [
             'pytest',
-            'pytest-cov',
-            'coverage'
+            'coverage',
+            'sphinx',
+            'alabaster'
        ]
       },
       entry_points={
