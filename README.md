@@ -53,7 +53,7 @@ Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
 
 #   data_standard  ... best_oa_location.version
 #0              2  ...         publishedVersion
-#0              2  ...         publishedVersion
+#1              2  ...         publishedVersion
 
 #[2 rows x 32 columns]
 ```

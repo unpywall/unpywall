@@ -78,9 +78,9 @@ class UnpywallURL:
     Attributes
     ----------
     doi : str
-        The desired DOI.
+        The DOI of the requested paper.
     url : str
-        Constructs an Unpaywall URL
+        The URL for the Unpaywall Endpoint.
     """
 
     def __init__(self, doi: str) -> None:

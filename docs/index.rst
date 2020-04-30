@@ -23,6 +23,7 @@ User's Guide
   foreword
   installation
   quickstart
+  dataformat
   errorhandling
   cache
   cli

@@ -201,7 +201,7 @@ class Unpywall:
             else:
                 df2 = pd.json_normalize(data=r, max_level=1, errors=errors)
 
-            df = df.append(df2)
+            df = df.append(df2, ignore_index=True)
 
         if df.empty:
             return None
@@ -251,7 +251,7 @@ class Unpywall:
             return None
 
     @staticmethod
-    def get_pdf_link(doi: str):
+    def get_pdf_link(doi: str) -> str:
         """
         This function returns a link to an OA pdf (if available).
 
@@ -272,7 +272,7 @@ class Unpywall:
             return None
 
     @staticmethod
-    def get_doc_link(doi: str):
+    def get_doc_link(doi: str) -> str:
         """
         This function returns a link to the best OA location
         (not necessarily a PDF).
@@ -317,7 +317,7 @@ class Unpywall:
         return data
 
     @staticmethod
-    def download_pdf_handle(doi: str):
+    def download_pdf_handle(doi: str) -> BytesIO:
         """
         This function returns a file-like object containing the requested PDF.
 
@@ -328,7 +328,7 @@ class Unpywall:
 
         Returns
         -------
-        object
+        BytesIO
             The handle of the PDF file.
         """
         pdf_link = Unpywall.get_pdf_link(doi)

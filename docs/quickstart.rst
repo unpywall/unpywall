@@ -42,7 +42,7 @@ into a pandas DataFrame. This also works with multiple DOIs.
 
   #    data_standard  ... best_oa_location.version
   # 0              2  ...         publishedVersion
-  # 0              2  ...         publishedVersion
+  # 1              2  ...         publishedVersion
 
   # [2 rows x 32 columns]
 
