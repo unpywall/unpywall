@@ -29,6 +29,11 @@ class TestUnpywall:
         assert Unpywall.cache.name == path
         os.remove(path)
 
+        with pytest.raises(AttributeError,
+                           match='Cache is not of type {0}'.format(
+                                                            UnpywallCache)):
+            assert Unpywall.init_cache('Not a UnpywallCache object.')
+
         Unpywall.init_cache(test_cache)
         assert os.path.exists(Unpywall.cache.name)
 

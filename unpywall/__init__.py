@@ -23,9 +23,27 @@ class Unpywall:
     cache = None
 
     @staticmethod
-    def init_cache(cache=None):
+    def init_cache(cache=None) -> None:
+        """
+        This method initilializes a cache that is used to store records
+        from the Unpaywall database.
+
+        Parameters
+        ----------
+        cache: UnpywallCache
+            A custom cache to be used instead of the standard cache.
+
+        Raises
+        ------
+        AttributeError
+            If the custom cache is not of type UnpywallCache.
+        """
         if cache:
-            Unpywall.cache = cache
+            if not isinstance(cache, UnpywallCache):
+                raise AttributeError(
+                        'Cache is not of type {0}'.format(UnpywallCache))
+            else:
+                Unpywall.cache = cache
         else:
             Unpywall.cache = UnpywallCache()
 
