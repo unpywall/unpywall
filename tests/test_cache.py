@@ -20,8 +20,6 @@ class TestUnpywallCache:
     def backup_cache(self):
         cache = UnpywallCache(TestUnpywallCache.test_backup_cache_path)
         yield cache
-        copyfile(TestUnpywallCache.test_backup_cache_path,
-                 TestUnpywallCache.test_cache_path)
 
     @pytest.fixture
     def example_cache(self):
@@ -81,8 +79,9 @@ class TestUnpywallCache:
         example_cache.save(saved_cache_name)
         UnpywallCache(saved_cache_name)
         os.remove(saved_cache_name)
-        assert UnpywallCache().name == os.path.join(os.getcwd(),
-                                                    'unpaywall_cache')
+        path = os.path.join(os.getcwd(), 'unpaywall_cache')
+        assert UnpywallCache().name == path
+        os.remove(path)
         assert doi in backup_cache.content
         assert doi in backup_cache.access_times
 

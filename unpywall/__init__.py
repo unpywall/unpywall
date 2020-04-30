@@ -20,7 +20,14 @@ class Unpywall:
     """
 
     api_limit: int = 100000
-    cache = UnpywallCache()
+    cache = None
+
+    @staticmethod
+    def init_cache(cache=None):
+        if cache:
+            Unpywall.cache = cache
+        else:
+            Unpywall.cache = UnpywallCache()
 
     @staticmethod
     def _validate_dois(dois: list) -> list:
@@ -214,6 +221,8 @@ class Unpywall:
         AttributeError
             If the Unpaywall API did not respond with json.
         """
+        if not Unpywall.cache:
+            Unpywall.init_cache()
         r = Unpywall.cache.get(doi,
                                errors=errors,
                                force=force,

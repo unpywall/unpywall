@@ -7,17 +7,30 @@ from requests.exceptions import HTTPError
 from unpywall import Unpywall
 from unpywall.cache import UnpywallCache
 
-cache = UnpywallCache(os.path.join(
-                        os.path.abspath(
-                            os.path.dirname(__file__)),
-                            'unpaywall_cache'))
-
-Unpywall.cache = cache
+test_cache = UnpywallCache(os.path.join(
+                            os.path.abspath(
+                                os.path.dirname(__file__)),
+                                'unpaywall_cache'))
 
 os.environ['UNPAYWALL_EMAIL'] = 'nick.haupka@gmail.com'
 
 
 class TestUnpywall:
+
+    @pytest.fixture
+    def Unpywall(self):
+        Unpywall.init_cache(test_cache)
+        yield Unpywall
+
+    def test_init_cache(self):
+
+        Unpywall.init_cache()
+        path = os.path.join(os.getcwd(), 'unpaywall_cache')
+        assert Unpywall.cache.name == path
+        os.remove(path)
+
+        Unpywall.init_cache(test_cache)
+        assert os.path.exists(Unpywall.cache.name)
 
     def test_validate_dois(self):
 
@@ -38,7 +51,7 @@ class TestUnpywall:
 
         assert Unpywall._validate_dois(correct_dois) == correct_dois
 
-    def test_get_df(self, capfd):
+    def test_get_df(self, Unpywall, capfd):
 
         with pytest.raises(ValueError,
                            match=('The argument format only accepts the'
@@ -75,7 +88,7 @@ class TestUnpywall:
 
             assert df_empty is None
 
-    def test_get_json(self):
+    def test_get_json(self, Unpywall):
 
         with pytest.raises(HTTPError):
             Unpywall.get_json('a bad doi', errors='raise')
@@ -86,34 +99,34 @@ class TestUnpywall:
         assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
                                             errors='raise'), dict)
 
-    def test_get_pdf_link(self):
+    def test_get_pdf_link(self, Unpywall):
 
         assert isinstance(Unpywall.get_pdf_link('10.1038/nature12373'), str)
 
-    def test_get_doc_link(self):
+    def test_get_doc_link(self, Unpywall):
 
         assert isinstance(
                 Unpywall.get_doc_link('10.1016/j.tmaid.2020.101663'), str)
 
-    def test_get_all_links(self):
+    def test_get_all_links(self, Unpywall):
 
         assert isinstance(
                 Unpywall.get_all_links('10.1016/j.tmaid.2020.101663'), list)
 
-    def test_download_pdf_handle(self):
+    def test_download_pdf_handle(self, Unpywall):
 
         assert isinstance(
                 Unpywall.download_pdf_handle('10.1038/nature12373'), BytesIO)
 
-    def test_progress(self, capfd):
+    def test_progress(self, Unpywall, capfd):
         Unpywall._progress(0.5)
         captured = capfd.readouterr()
         assert len(captured.out) > 0
 
-    def test_view_pdf(self):
+    def test_view_pdf(self, Unpywall):
         pass
 
-    def test_download_pdf_file(self, capfd):
+    def test_download_pdf_file(self, Unpywall, capfd):
 
         filename = 'test.pdf'
         filepath = './test_dir'
