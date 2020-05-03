@@ -15,10 +15,27 @@ Define and Access a custom Cache
 
 Unpywall caches results to reduce network bandwidth and improve speed.
 
-By default, a package-wide cache is used:
+By default, a package-wide cache is used. 
+
+.. code-block:: python
+   cache = UnpywallCache()
+   Unpywall.init_cache(cache)
 
 Users can also use a project-specific cache:
 
-Users can set a timeout:
+.. code-block:: python
+   cache = UnpywallCache("cache_for_analysis_script")
+   Unpywall.init_cache(cache)
+
+Users can set a timeout (in seconds):
+
+.. code-block:: python
+   cache = UnpywallCache(timeout=1000)
+   Unpywall.init_cache(cache)
 
 Users can also override the cache completely using the "force" option:
+
+.. code-block:: python
+   cache = UnpywallCache()
+   Unpywall.init_cache(cache)
+   Unpywall.get_df("10.7717/peerj.4375", force=True)
