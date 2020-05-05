@@ -3,8 +3,38 @@ Data Format
 
 JSON format
 
-The JSON format is composed of two objects:
+======================== ============ =========
+          Key               Example    Meaning
+======================== ============ ========
 
-DOI object
+best_oa_location
+    evidence
+    host_type
+    is_best
+    license
+    pmh_id
+    updated
+    url
+    url_for_landing_page
+    url_for_pdf
+    version
+data_standard
+doi
+doi_url
+genre
+is_paratext
+is_oa
+journal_is_in_doaj
+journal_is_oa
+journal_issns
+journal_issn_l
+journal_name
+oa_locations
+oa_status
+published_date
+publisher
+title
+updated
+year
+z_authors
 
-OA Location object
