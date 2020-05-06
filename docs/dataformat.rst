@@ -1,22 +1,17 @@
 Data Format
 ===========
 
-JSON format
+In the Unpaywall schema, there are two types of objects. Every OA paper is represetnted by a "DOI object", which can have multiple "OA locations".
+
+ - DOI objects. This contains information about the paper, such as the title, publication date, and authors.
+
+ - OA location objects. There can be many OA locations for each DOI, with features like PDF links, licenses, etc.
+
 
 +----------------------------+----------------------------------------+-------------+
 | Key                        |  Example                               |   Meaning   |
 +============================+========================================+=============+
-|``best_oa_location``        |                                        |             |
-| |  ``host_type``           | "publisher"                            |             |
-| |  ``license``             | "cc-by"                                |             |
-| |  ``pmh_id``              |                                        |             |
-| |  ``updated``             | "2019-10-21T21:58:45.747379"           |             |
-| |  ``url``                 |``"https://peerj.com/articles/4375.pdf``|             |
-| |  ``url_for_landing_page``| "https://doi.org/10.7717/peerj.4375"   |             |
-| |  ``url_for_pdf``         | "https://peerj.com/articles/4375.pdf"  |             |
-| |  ``version``             | "publishedVersion"                     |             |
-| |  ``is_best``             |                                        |             |
-| |  ``evidence``            | "open (via page says license)"         |             |
+|``best_oa_location``        | See                                        |             |
 +----------------------------+----------------------------------------+-------------+
 |``data_standard``           | 1                                      |             |
 +----------------------------+----------------------------------------+-------------+
@@ -40,7 +35,7 @@ JSON format
 +----------------------------+----------------------------------------+-------------+
 |``journal_name``            | "PeerJ"                                |             |
 +----------------------------+----------------------------------------+-------------+
-|``oa_locations``            | ...                                    |             |
+|``oa_locations``            | ...                                    | A list of OA locations like best_location            |
 +----------------------------+----------------------------------------+-------------+
 |``oa_status``               | "gold"                                 |             |
 +----------------------------+----------------------------------------+-------------+
@@ -59,3 +54,15 @@ JSON format
 |``z_authors``               | ...                                    |             |
 +----------------------------+----------------------------------------+-------------+
 
+OA location
+
+| |  ``host_type``           | "publisher"                            |             |
+| |  ``license``             | "cc-by"                                |             |
+| |  ``pmh_id``              |                                        |             |
+| |  ``updated``             | "2019-10-21T21:58:45.747379"           |             |
+| |  ``url``                 |``"https://peerj.com/articles/4375.pdf``|             |
+| |  ``url_for_landing_page``| "https://doi.org/10.7717/peerj.4375"   |             |
+| |  ``url_for_pdf``         | "https://peerj.com/articles/4375.pdf"  |             |
+| |  ``version``             | "publishedVersion"                     |             |
+| |  ``is_best``             |                                        |             |
+| |  ``evidence``            | "open (via page says license)"         |             |
