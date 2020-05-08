@@ -43,14 +43,6 @@ You can set a timeout (in seconds). Unpaywall sometimes updates its open access 
 
 .. code-block:: python
 
-   Unpywall.get_df('10.7717/peerj.4375')
-   time.sleep(2)
-   Unpywall.get_df('10.7717/peerj.4375')
-
-In this case, the doi will not 
-
-.. code-block:: python
-
    cache = UnpywallCache()
    Unpywall.init_cache(cache)
    Unpywall.get_df('10.7717/peerj.4375', force=True)
