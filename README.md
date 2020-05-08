@@ -20,7 +20,7 @@ The documentation about the Unpaywall REST API is located here: https://unpaywal
 ## Install
 
 Install from [pypi](https://pypi.org/project/unpywall/) using pip:
-```python
+```bash
 pip install unpywall
 ```
 
@@ -125,7 +125,7 @@ unpywall comes with a command-line-interface that can be used to quickly look up
 
 Retrieve the URL of a PDF for a given DOI with the following command.
 
-```python
+```bash
 unpywall link 10.1038/nature12373
 ```
 
@@ -133,7 +133,7 @@ unpywall link 10.1038/nature12373
 
 If you want to view a PDF in your Browser or on your system use `view`.
 
-```python
+```bash
 unpywall view 10.1038/nature12373 -m browser
 ```
 
@@ -141,7 +141,7 @@ unpywall view 10.1038/nature12373 -m browser
 
 Use `download` if you want to store a PDF on your machine.
 
-```python
+```bash
 unpywall download 10.1038/nature12373 -f article.pdf -p ./documents
 ```
 
@@ -149,7 +149,7 @@ unpywall download 10.1038/nature12373 -f article.pdf -p ./documents
 
 You can always use `help` to open a description for the provided functions.
 
-```python
+```bash
 unpywall -h
 ```
 
@@ -161,6 +161,6 @@ Full documentation is available at https://unpywall.readthedocs.io/.
 
 To install unpywall, along with dev tools, run:
 
-```python
+```bash
 pip install -e '.[dev]'
 ```
