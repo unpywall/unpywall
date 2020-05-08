@@ -7,7 +7,7 @@ with open(path.join(dir, 'README.md'), encoding='utf-8') as file:
 
 
 setup(name='unpywall',
-      version='0.1.7.2',
+      version='0.1.8',
       description='Interfacing the Unpaywall Database with Python',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -16,7 +16,12 @@ setup(name='unpywall',
       author_email='nick.haupka@gmail.com, bganglia892@gmail.com',
       license='MIT',
       packages=['unpywall'],
-      keywords=['Unpaywall'],
+      keywords=['Unpaywall', 'Open Access', 'full text'],
+      project_urls={
+        'Documentation': 'https://unpywall.readthedocs.io/en/latest/',
+        'Source': 'https://github.com/unpywall/unpywall',
+        'Tracker': 'https://github.com/unpywall/unpywall/issues'
+      },
       install_requires=[
         'pandas',
         'requests'
@@ -24,8 +29,9 @@ setup(name='unpywall',
       extras_require={
        'dev': [
             'pytest',
-            'pytest-cov',
-            'coverage'
+            'coverage',
+            'sphinx',
+            'alabaster'
        ]
       },
       entry_points={

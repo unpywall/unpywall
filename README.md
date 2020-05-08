@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpywall/blob/master/LICENSE.txt)
 [![PyPI - Version](https://img.shields.io/pypi/v/unpywall)](https://pypi.org/project/unpywall/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/unpywall)](https://pypi.org/project/unpywall/)
+[![Documentation Status](https://readthedocs.org/projects/unpywall/badge/?version=latest)](https://unpywall.readthedocs.io/en/latest/?badge=latest)
 
 ## Introduction
 
@@ -52,7 +53,7 @@ Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
 
 #   data_standard  ... best_oa_location.version
 #0              2  ...         publishedVersion
-#0              2  ...         publishedVersion
+#1              2  ...         publishedVersion
 
 #[2 rows x 32 columns]
 ```
@@ -115,6 +116,46 @@ Unpywall.get_json(doi='10.1038/nature12373')
 
 #{'best_oa_location': {'endpoint_id': '8c9d8ba370a84253deb', 'evidence': 'oa repository (via OAI-PMH doi match)', 'host_type': ...
 ```
+
+## Command-Line-Interface
+
+unpywall comes with a command-line-interface that can be used to quickly look up a PDF or to download free full-text articles to your device.
+
+### Obtain a PDF URL
+
+Retrieve the URL of a PDF for a given DOI with the following command.
+
+```python
+unpywall link 10.1038/nature12373
+```
+
+### View a PDF
+
+If you want to view a PDF in your Browser or on your system use `view`.
+
+```python
+unpywall view 10.1038/nature12373 -m browser
+```
+
+### PDF Download
+
+Use `download` if you want to store a PDF on your machine.
+
+```python
+unpywall download 10.1038/nature12373 -f article.pdf -p ./documents
+```
+
+### Help
+
+You can always use `help` to open a description for the provided functions.
+
+```python
+unpywall -h
+```
+
+## Documentation
+
+Full documentation is available at https://unpywall.readthedocs.io/.
 
 ## Develop
 
