@@ -30,6 +30,7 @@ setup(name='unpywall',
        'dev': [
             'pytest',
             'coverage',
+            'pytest-cov',
             'sphinx',
             'alabaster'
        ]
