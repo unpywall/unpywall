@@ -22,11 +22,11 @@
 
 - Type Hinting
 
-## v0.1.7.3
+## v0.1.8
 
 ### Fixed
 
-### Changed
+- Auto increment indexes in get_df
 
 ### Added
 
