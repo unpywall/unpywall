@@ -1,6 +1,11 @@
 Data Format
 ===========
 
+This documentation is a version of the official data format description. For more information, consult the `official version <http://unpaywall.org/data-format>`_.
+
+Objects
+-------
+
 In the Unpaywall schema, there are two types of objects. Every OA paper is represetnted by a "DOI object", which can have multiple "OA locations".
 
  - DOI objects. This contains information about the paper, such as the title, publication date, and authors.
@@ -8,7 +13,7 @@ In the Unpaywall schema, there are two types of objects. Every OA paper is repre
  - OA location objects. There can be many OA locations for each DOI, with features like PDF links, licenses, etc.
 
 DOI Object
-==========
+----------
 
 +----------------------------+-----------------------------------------------+-----------------------------------------------------------------------------+
 | Key                        |  Example                                      |   Meaning                                                                   |
@@ -57,7 +62,7 @@ DOI Object
 +----------------------------+-----------------------------------------------+-----------------------------------------------------------------------------+
 
 OA Location
-===========
+-----------
 
 +----------------------------+----------------------------------------+-------------+
 | Key                        |  Example                               |   Meaning   |
@@ -84,3 +89,4 @@ OA Location
 +----------------------------+----------------------------------------+-------------+
 
 OA statuses
+
