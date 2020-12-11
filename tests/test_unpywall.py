@@ -8,9 +8,8 @@ from unpywall import Unpywall
 from unpywall.cache import UnpywallCache
 
 test_cache = UnpywallCache(os.path.join(
-                            os.path.abspath(
-                                os.path.dirname(__file__)),
-                                'unpaywall_cache'))
+    os.path.abspath(
+       os.path.dirname(__file__)), 'unpaywall_cache'))
 
 os.environ['UNPAYWALL_EMAIL'] = 'nick.haupka@gmail.com'
 
@@ -29,9 +28,9 @@ class TestUnpywall:
         assert Unpywall.cache.name == path
         os.remove(path)
 
-        with pytest.raises(AttributeError,
-                           match='Cache is not of type {0}'.format(
-                                                            UnpywallCache)):
+        with pytest.raises(
+         AttributeError, match='Cache is not of type {0}'.format(
+                UnpywallCache)):
             assert Unpywall.init_cache('Not a UnpywallCache object.')
 
         Unpywall.init_cache(test_cache)
@@ -56,42 +55,41 @@ class TestUnpywall:
 
         assert Unpywall._validate_dois(correct_dois) == correct_dois
 
-    def test_get_df(self, Unpywall, capfd):
+    def test_get_df(self, Unpywall):
+        pass
+
+    def test_doi(self, Unpywall, capfd):
 
         with pytest.raises(ValueError,
                            match=('The argument format only accepts the'
                                   ' values "raw" and "extended"')):
-            assert Unpywall.get_df(dois=['10.1038/nature12373'],
-                                   format='not a valid format')
+            assert Unpywall.doi(dois=['10.1038/nature12373'],
+                                format='not a valid format')
 
-        with pytest.raises(ValueError,
-                           match=('The argument errors only accepts the values'
-                                  ' "ignore" and "raise"')):
-            assert Unpywall.get_df(dois=['10.1038/nature12373'],
-                                   progress=False,
-                                   errors='skip')
-
-        df_raw = Unpywall.get_df(dois=['10.1038/nature12373'],
-                                 format='raw',
-                                 progress=True,
-                                 errors='ignore')
+        df_raw = Unpywall.doi(dois=['10.1038/nature12373'],
+                              format='raw',
+                              progress=True,
+                              errors='ignore')
 
         captured = capfd.readouterr()
 
         assert len(captured.out) > 0
         assert isinstance(df_raw, pd.DataFrame)
 
-        df_extended = Unpywall.get_df(dois=['10.1038/nature12373'],
-                                      format='extended',
-                                      errors='ignore')
+        df_extended = Unpywall.doi(dois=['10.1038/nature12373'],
+                                   format='extended',
+                                   errors='ignore')
 
         assert isinstance(df_extended, pd.DataFrame)
 
         with pytest.warns(UserWarning):
-            df_empty = Unpywall.get_df(dois=['a bad doi'],
-                                       errors='ignore')
+            df_empty = Unpywall.doi(dois=['a bad doi'],
+                                    errors='ignore')
 
             assert df_empty is None
+
+    def test_query(self, Unpywall):
+        pass
 
     def test_get_json(self, Unpywall):
 
@@ -111,17 +109,17 @@ class TestUnpywall:
     def test_get_doc_link(self, Unpywall):
 
         assert isinstance(
-                Unpywall.get_doc_link('10.1016/j.tmaid.2020.101663'), str)
+            Unpywall.get_doc_link('10.1016/j.tmaid.2020.101663'), str)
 
     def test_get_all_links(self, Unpywall):
 
         assert isinstance(
-                Unpywall.get_all_links('10.1016/j.tmaid.2020.101663'), list)
+            Unpywall.get_all_links('10.1016/j.tmaid.2020.101663'), list)
 
     def test_download_pdf_handle(self, Unpywall):
 
         assert isinstance(
-                Unpywall.download_pdf_handle('10.1038/nature12373'), BytesIO)
+            Unpywall.download_pdf_handle('10.1038/nature12373'), BytesIO)
 
     def test_progress(self, Unpywall, capfd):
         Unpywall._progress(0.5)

@@ -7,7 +7,7 @@ with open(path.join(dir, 'README.md'), encoding='utf-8') as file:
 
 
 setup(name='unpywall',
-      version='0.1.8',
+      version='0.2',
       description='Interfacing the Unpaywall Database with Python',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -28,11 +28,11 @@ setup(name='unpywall',
       ],
       extras_require={
        'dev': [
-            'pytest',
-            'coverage',
-            'pytest-cov',
-            'sphinx',
-            'alabaster'
+           'pytest',
+           'coverage',
+           'pytest-cov',
+           'sphinx',
+           'alabaster'
        ]
       },
       entry_points={

@@ -173,7 +173,7 @@ class UnpywallCache:
 
         mandatory_wait_time = int(os.environ.get('MANDATORY_WAIT_TIME', 1))
         time.sleep(mandatory_wait_time)
-        url = UnpywallURL(doi).url
+        url = UnpywallURL(doi=doi).doi_url
 
         try:
 
