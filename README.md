@@ -43,13 +43,9 @@ Notice that the environment variable for authentication needs to be called `UNPA
 export UNPAYWALL_EMAIL=nick.haupka@gmail.com
 ```
 
-### Pandas Integration
-
-unpywall uses the data analysis tool [pandas](https://pandas.pydata.org/) for evaluating information from Unpaywall.
-
 ### Query Unpaywall by DOI
 
-If you want to search articles by a given DOI use the method `doi`.
+If you want to search articles by a given DOI use the method `doi`. The result is a [pandas](https://pandas.pydata.org/) DataFrame.
 
 ```python
 from unpywall import Unpywall
@@ -81,7 +77,7 @@ Unpywall.doi(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
 
 ### Query Unpaywall by text search
 
-If you want to search articles by a given term use the method `query`.
+If you want to search articles by a given term use the method `query`. The result is a [pandas](https://pandas.pydata.org/) DataFrame.
 
 ```python
 Unpywall.query(query='sea lion',
