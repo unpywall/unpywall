@@ -45,7 +45,7 @@ export UNPAYWALL_EMAIL=nick.haupka@gmail.com
 
 ### Query Unpaywall by DOI
 
-If you want to search articles by a given DOI use the method `doi`. The result is a [pandas](https://pandas.pydata.org/) DataFrame.
+If you want to search articles by a given DOI use the method `doi`. The result is a [pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
 
 ```python
 from unpywall import Unpywall
@@ -77,7 +77,7 @@ Unpywall.doi(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
 
 ### Query Unpaywall by text search
 
-If you want to search articles by a given term use the method `query`. The result is a [pandas](https://pandas.pydata.org/) DataFrame.
+If you want to search articles by a given term use the method `query`. The result is a [pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
 
 ```python
 Unpywall.query(query='sea lion',
