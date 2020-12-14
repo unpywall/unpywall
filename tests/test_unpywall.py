@@ -56,31 +56,40 @@ class TestUnpywall:
         assert Unpywall._validate_dois(correct_dois) == correct_dois
 
     def test_get_df(self, Unpywall):
-        pass
 
-    def test_doi(self, Unpywall, capfd):
+        data = Unpywall.get_json(doi='10.1016/j.tmaid.2020.101663',
+                                 errors='raise')
 
         with pytest.raises(ValueError,
                            match=('The argument format only accepts the'
                                   ' values "raw" and "extended"')):
-            assert Unpywall.doi(dois=['10.1038/nature12373'],
-                                format='not a valid format')
+            assert Unpywall._get_df(data=data,
+                                    format='not a valid format',
+                                    errors='raise')
 
-        df_raw = Unpywall.doi(dois=['10.1038/nature12373'],
-                              format='raw',
-                              progress=True,
-                              errors='ignore')
+        df_raw = Unpywall._get_df(data=data,
+                                  format='raw',
+                                  errors='ignore')
+
+        assert isinstance(df_raw, pd.DataFrame)
+
+        df_extended = Unpywall._get_df(data=data,
+                                       format='extended',
+                                       errors='ignore')
+
+        assert isinstance(df_extended, pd.DataFrame)
+
+    def test_doi(self, Unpywall, capfd):
+
+        df = Unpywall.doi(dois=['10.1038/nature12373'],
+                          format='raw',
+                          progress=True,
+                          errors='ignore')
 
         captured = capfd.readouterr()
 
         assert len(captured.out) > 0
-        assert isinstance(df_raw, pd.DataFrame)
-
-        df_extended = Unpywall.doi(dois=['10.1038/nature12373'],
-                                   format='extended',
-                                   errors='ignore')
-
-        assert isinstance(df_extended, pd.DataFrame)
+        assert isinstance(df, pd.DataFrame)
 
         with pytest.warns(UserWarning):
             df_empty = Unpywall.doi(dois=['a bad doi'],
@@ -89,18 +98,34 @@ class TestUnpywall:
             assert df_empty is None
 
     def test_query(self, Unpywall):
-        pass
+
+        df = Unpywall.query(query='test',
+                            is_oa=True,
+                            errors='ignore')
+
+        assert isinstance(df, pd.DataFrame)
 
     def test_get_json(self, Unpywall):
 
         with pytest.raises(HTTPError):
-            Unpywall.get_json('a bad doi', errors='raise')
+            Unpywall.get_json(doi='a bad doi', errors='raise')
 
         with pytest.warns(UserWarning):
-            Unpywall.get_json('a bad doi', errors='ignore')
+            Unpywall.get_json(doi='a bad doi', errors='ignore')
 
-        assert isinstance(Unpywall.get_json('10.1016/j.tmaid.2020.101663',
+        assert isinstance(Unpywall.get_json(doi='10.1016/j.tmaid.2020.101663',
                                             errors='raise'), dict)
+
+        assert isinstance(Unpywall.get_json(query='test',
+                                            is_oa=True,
+                                            errors='raise'), dict)
+
+        with pytest.raises(ValueError,
+                           match=('The argument is_oa only accepts the'
+                                  ' values "True" and "False"')):
+            assert Unpywall.get_json(query='test',
+                                     is_oa='test',
+                                     errors='raise')
 
     def test_get_pdf_link(self, Unpywall):
 

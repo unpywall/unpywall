@@ -105,9 +105,9 @@ class Unpywall:
             print('\n', file=sys.stdout)
 
     @staticmethod
-    def get_df(data,
-               format: str,
-               errors: str) -> pd.DataFrame:
+    def _get_df(data,
+                format: str,
+                errors: str) -> pd.DataFrame:
         """
         Parses information from the Unpaywall API service and returns it as
         a pandas DataFrame.
@@ -175,23 +175,39 @@ class Unpywall:
     def query(query: str,
               is_oa: bool = False,
               format: str = 'raw',
-              errors: str = 'raise',
-              force: bool = False,
-              ignore_cache: bool = False) -> pd.DataFrame:
+              errors: str = 'raise') -> pd.DataFrame:
+        """
+        Parses information for a given query from the Unpaywall API service and
+        returns it as a pandas DataFrame.
 
-        from .utils import UnpywallURL
+        Parameters
+        ----------
+        query : str
+            The text to search for.
+        is_oa : bool
+            A boolean value indicating whether the returned records should be
+            Open Access or not.
+        format: str
+            The format of the DataFrame.
+        errors : str
+            Either 'raise' or 'ignore'. If the parameter errors is set to
+            'ignore' than errors will not raise an exception.
 
-        url = UnpywallURL(query, is_oa).query_url
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame that contains information from the Unpaywall
+            API service.
+        """
 
-        r = requests.get(url)
-        data = r.json()
+        data = Unpywall.get_json(query=query, is_oa=is_oa, errors=errors)
 
         df = pd.DataFrame()
 
         for obj in data['results']:
-            df2 = Unpywall.get_df(data=obj['response'],
-                                  format=format,
-                                  errors=errors)
+            df2 = Unpywall._get_df(data=obj['response'],
+                                   format=format,
+                                   errors=errors)
             df = df.append(df2, ignore_index=True)
 
         if df.empty:
@@ -207,8 +223,8 @@ class Unpywall:
             force: bool = False,
             ignore_cache: bool = False):
         """
-        Parses information from the Unpaywall API service and returns it as
-        a pandas DataFrame.
+        Parses information for a given DOI from the Unpaywall API service and
+        returns it as a pandas DataFrame.
 
         Parameters
         ----------
@@ -242,18 +258,18 @@ class Unpywall:
             if progress:
                 Unpywall._progress(n / len(dois))
 
-            r = Unpywall.get_json(doi,
-                                  errors=errors,
-                                  force=force,
-                                  ignore_cache=ignore_cache)
+            data = Unpywall.get_json(doi,
+                                     errors=errors,
+                                     force=force,
+                                     ignore_cache=ignore_cache)
 
             # check if json is not empty or None due to an faulty DOI
-            if not bool(r):
+            if not bool(data):
                 continue
 
-            df2 = Unpywall.get_df(data=r,
-                                  format=format,
-                                  errors=errors)
+            df2 = Unpywall._get_df(data=data,
+                                   format=format,
+                                   errors=errors)
             df = df.append(df2, ignore_index=True)
 
         if df.empty:
@@ -262,7 +278,9 @@ class Unpywall:
         return df
 
     @staticmethod
-    def get_json(doi: str,
+    def get_json(doi: str = None,
+                 query: str = None,
+                 is_oa: bool = False,
                  errors: str = 'raise',
                  force: bool = False,
                  ignore_cache: bool = False):
@@ -273,6 +291,11 @@ class Unpywall:
         ----------
         doi : str
             The DOI of the requested paper.
+        query : str
+            The text to search for.
+        is_oa : bool
+            A boolean value indicating whether the returned records should be
+            Open Access or not.
         errors : str
             Either 'raise' or 'ignore'. If the parameter errors is set to
             'ignore' than errors will not raise an exception.
@@ -294,10 +317,23 @@ class Unpywall:
         """
         if not Unpywall.cache:
             Unpywall.init_cache()
-        r = Unpywall.cache.get(doi,
-                               errors=errors,
-                               force=force,
-                               ignore_cache=ignore_cache)
+
+        if doi:
+            r = Unpywall.cache.get(doi,
+                                   errors=errors,
+                                   force=force,
+                                   ignore_cache=ignore_cache)
+        if query:
+
+            if type(is_oa) != bool:
+                raise ValueError('The argument is_oa only accepts the'
+                                 ' values "True" and "False"')
+            # TODO: implementation -> cache.py
+            from .utils import UnpywallURL
+
+            url = UnpywallURL(query=query, is_oa=is_oa).query_url
+
+            r = requests.get(url)
         try:
             return r.json()
         except AttributeError:

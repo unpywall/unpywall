@@ -79,6 +79,11 @@ class UnpywallURL:
     ----------
     doi : str
         The DOI of the requested paper.
+    query : str
+        The text to search for.
+    is_oa : bool
+        A boolean value indicating whether the returned records should be
+        Open Access or not.
     doi_url : str
         The URL for the DOI-Endpoint.
     query_url : str
@@ -110,6 +115,5 @@ class UnpywallURL:
 
         if self.query is None:
             raise ValueError('Missing query')
-
-        return 'https://api.unpaywall.org/v2/query={0}&is_oa={1}?email={2}' \
-            .format(self.query, self.is_oa, self.email)
+        return ('https://api.unpaywall.org/v2/search/?query={0}&is_oa={1}'
+                '&email={2}').format(self.query, self.is_oa, self.email)
