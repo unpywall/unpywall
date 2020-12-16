@@ -29,7 +29,7 @@ pip install unpywall
 
 ### Authentication
 
-A authentification is required to use the Unpaywall Service. unpywall offers two options for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself. Both methods require an email.
+An authentification is required to use the Unpaywall Service. For that, unpywall offers two options for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself. Both methods require an email.
 
 ```python
 from unpywall.utils import UnpywallCredentials

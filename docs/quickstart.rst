@@ -4,8 +4,8 @@ Quickstart
 Authentication
 --------------
 
-To use the Unpaywall Service, a authentification is required. unpywall offers
-two options for authorizing the client. You can either import
+An authentification is required to use the Unpaywall Service. For that,
+unpywall offers two options for authorizing the client. You can either import
 ``UnpywallCredentials`` which generates an environment variable or you can set
 the environment variable by yourself. Both methods require an email.
 
