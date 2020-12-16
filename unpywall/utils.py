@@ -79,17 +79,41 @@ class UnpywallURL:
     ----------
     doi : str
         The DOI of the requested paper.
-    url : str
-        The URL for the Unpaywall Endpoint.
+    query : str
+        The text to search for.
+    is_oa : bool
+        A boolean value indicating whether the returned records should be
+        Open Access or not.
+    doi_url : str
+        The URL for the DOI-Endpoint.
+    query_url : str
+        The URL for the Query-Endpoint
     """
 
-    def __init__(self, doi: str) -> None:
+    def __init__(self,
+                 doi: str = None,
+                 query: str = None,
+                 is_oa: bool = False) -> None:
+
         self.doi = doi
+        self.query = query
+        self.is_oa = is_oa
+        self.email = UnpywallCredentials.validate_email(
+            os.environ.get('UNPAYWALL_EMAIL'))
 
     @property
-    def url(self) -> str:
-        email = UnpywallCredentials \
-                    .validate_email(os.environ.get('UNPAYWALL_EMAIL'))
+    def doi_url(self) -> str:
+
+        if self.doi is None:
+            raise ValueError('Missing DOI')
 
         return 'https://api.unpaywall.org/v2/{0}?email={1}'.format(self.doi,
-                                                                   email)
+                                                                   self.email)
+
+    @property
+    def query_url(self) -> str:
+
+        if self.query is None:
+            raise ValueError('Missing query')
+        return ('https://api.unpaywall.org/v2/search/?query={0}&is_oa={1}'
+                '&email={2}').format(self.query, self.is_oa, self.email)

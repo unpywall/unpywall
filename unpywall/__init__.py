@@ -41,7 +41,7 @@ class Unpywall:
         if cache:
             if not isinstance(cache, UnpywallCache):
                 raise AttributeError(
-                        'Cache is not of type {0}'.format(UnpywallCache))
+                 'Cache is not of type {0}'.format(UnpywallCache))
             else:
                 Unpywall.cache = cache
         else:
@@ -94,9 +94,9 @@ class Unpywall:
         """
 
         bar_len = 50
-        block = int(round(bar_len*progress))
+        block = int(round(bar_len * progress))
 
-        text = '|{0}| {1}%'.format('=' * block + ' ' * (bar_len-block),
+        text = '|{0}| {1}%'.format('=' * block + ' ' * (bar_len - block),
                                    int(progress * 100))
 
         print(text, end='\r', flush=False, file=sys.stdout)
@@ -105,15 +105,126 @@ class Unpywall:
             print('\n', file=sys.stdout)
 
     @staticmethod
-    def get_df(dois: list,
-               format: str = 'raw',
-               progress: bool = False,
-               errors: str = 'raise',
-               force: bool = False,
-               ignore_cache: bool = False) -> pd.DataFrame:
+    def _get_df(data,
+                format: str,
+                errors: str) -> pd.DataFrame:
         """
         Parses information from the Unpaywall API service and returns it as
         a pandas DataFrame.
+
+        Parameters
+        ----------
+        data: JSON object
+            A JSON data structure containing all information
+            returned by Unpaywall about a given input.
+        format: str
+            The format of the DataFrame.
+        errors : str
+            Either 'raise' or 'ignore'. If the parameter errors is set to
+            'ignore' than errors will not raise an exception.
+
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame that contains information from the Unpaywall
+            API service.
+
+        Raises
+        ------
+        ValueError
+            If the parameter errors contains a faulty value.
+        """
+
+        if format not in ['raw', 'extended']:
+            raise ValueError('The argument format only accepts the'
+                             ' values "raw" and "extended"')
+
+        if format == 'extended':
+
+            doi_object = pd.json_normalize(data=data,
+                                           max_level=1,
+                                           errors=errors)
+
+            doi_object.drop(columns=['oa_locations',
+                                     'z_authors'],
+                            errors=errors,
+                            inplace=True)
+
+            oa_locations = pd.json_normalize(data=data,
+                                             errors=errors,
+                                             meta='doi',
+                                             record_path=['oa_locations'])
+
+            z_authors = pd.json_normalize(data=data,
+                                          errors=errors,
+                                          meta='doi',
+                                          record_path=['z_authors'])
+
+            dfs = [doi_object, oa_locations, z_authors]
+            df = reduce(lambda left, right: pd.merge(left,
+                                                     right,
+                                                     how='outer',
+                                                     on='doi'), dfs)
+
+        else:
+            df = pd.json_normalize(data=data, max_level=1, errors=errors)
+
+        return df
+
+    @staticmethod
+    def query(query: str,
+              is_oa: bool = False,
+              format: str = 'raw',
+              errors: str = 'raise') -> pd.DataFrame:
+        """
+        Parses information for a given query from the Unpaywall API service and
+        returns it as a pandas DataFrame.
+
+        Parameters
+        ----------
+        query : str
+            The text to search for.
+        is_oa : bool
+            A boolean value indicating whether the returned records should be
+            Open Access or not.
+        format: str
+            The format of the DataFrame.
+        errors : str
+            Either 'raise' or 'ignore'. If the parameter errors is set to
+            'ignore' than errors will not raise an exception.
+
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame that contains information from the Unpaywall
+            API service.
+        """
+
+        data = Unpywall.get_json(query=query, is_oa=is_oa, errors=errors)
+
+        df = pd.DataFrame()
+
+        for obj in data['results']:
+            df2 = Unpywall._get_df(data=obj['response'],
+                                   format=format,
+                                   errors=errors)
+            df = df.append(df2, ignore_index=True)
+
+        if df.empty:
+            return None
+
+        return df
+
+    @staticmethod
+    def doi(dois: list,
+            format: str = 'raw',
+            progress: bool = False,
+            errors: str = 'raise',
+            force: bool = False,
+            ignore_cache: bool = False):
+        """
+        Parses information for a given DOI from the Unpaywall API service and
+        returns it as a pandas DataFrame.
 
         Parameters
         ----------
@@ -136,71 +247,29 @@ class Unpywall:
         DataFrame
             A pandas DataFrame that contains information from the Unpaywall
             API service.
-
-        Raises
-        ------
-        ValueError
-            If the parameter errors contains a faulty value.
         """
 
         dois = Unpywall._validate_dois(dois)
-
-        if format not in ['raw', 'extended']:
-            raise ValueError('The argument format only accepts the'
-                             ' values "raw" and "extended"')
-
-        if errors not in ['ignore', 'raise']:
-            raise ValueError('The argument errors only accepts the'
-                             ' values "ignore" and "raise"')
 
         df = pd.DataFrame()
 
         for n, doi in enumerate(dois, start=1):
 
             if progress:
-                Unpywall._progress(n/len(dois))
+                Unpywall._progress(n / len(dois))
 
-            r = Unpywall.get_json(doi,
-                                  errors=errors,
-                                  force=force,
-                                  ignore_cache=ignore_cache)
+            data = Unpywall.get_json(doi,
+                                     errors=errors,
+                                     force=force,
+                                     ignore_cache=ignore_cache)
 
             # check if json is not empty or None due to an faulty DOI
-            if not bool(r):
+            if not bool(data):
                 continue
 
-            if format == 'extended':
-
-                doi_object = pd.json_normalize(data=r,
-                                               max_level=1,
-                                               errors=errors)
-
-                doi_object.drop(columns=['oa_locations',
-                                         'z_authors'],
-                                errors=errors,
-                                inplace=True)
-
-                oa_locations = pd.json_normalize(
-                                        data=r,
-                                        errors=errors,
-                                        meta='doi',
-                                        record_path=['oa_locations'])
-
-                z_authors = pd.json_normalize(
-                                        data=r,
-                                        errors=errors,
-                                        meta='doi',
-                                        record_path=['z_authors'])
-
-                dfs = [doi_object, oa_locations, z_authors]
-                df2 = reduce(lambda left, right: pd.merge(left,
-                                                          right,
-                                                          how='outer',
-                                                          on='doi'), dfs)
-
-            else:
-                df2 = pd.json_normalize(data=r, max_level=1, errors=errors)
-
+            df2 = Unpywall._get_df(data=data,
+                                   format=format,
+                                   errors=errors)
             df = df.append(df2, ignore_index=True)
 
         if df.empty:
@@ -209,7 +278,9 @@ class Unpywall:
         return df
 
     @staticmethod
-    def get_json(doi: str,
+    def get_json(doi: str = None,
+                 query: str = None,
+                 is_oa: bool = False,
                  errors: str = 'raise',
                  force: bool = False,
                  ignore_cache: bool = False):
@@ -220,6 +291,11 @@ class Unpywall:
         ----------
         doi : str
             The DOI of the requested paper.
+        query : str
+            The text to search for.
+        is_oa : bool
+            A boolean value indicating whether the returned records should be
+            Open Access or not.
         errors : str
             Either 'raise' or 'ignore'. If the parameter errors is set to
             'ignore' than errors will not raise an exception.
@@ -241,10 +317,23 @@ class Unpywall:
         """
         if not Unpywall.cache:
             Unpywall.init_cache()
-        r = Unpywall.cache.get(doi,
-                               errors=errors,
-                               force=force,
-                               ignore_cache=ignore_cache)
+
+        if doi:
+            r = Unpywall.cache.get(doi,
+                                   errors=errors,
+                                   force=force,
+                                   ignore_cache=ignore_cache)
+        if query:
+
+            if type(is_oa) != bool:
+                raise ValueError('The argument is_oa only accepts the'
+                                 ' values "True" and "False"')
+            # TODO: implementation -> cache.py
+            from .utils import UnpywallURL
+
+            url = UnpywallURL(query=query, is_oa=is_oa).query_url
+
+            r = requests.get(url)
         try:
             return r.json()
         except AttributeError:
@@ -366,7 +455,7 @@ class Unpywall:
                 for chunk in r.iter_content(block_size):
                     if progress:
                         chunk_size += len(chunk)
-                        Unpywall._progress(chunk_size/file_size)
+                        Unpywall._progress(chunk_size / file_size)
                     file.write(chunk)
 
                 # macOS
@@ -417,5 +506,5 @@ class Unpywall:
             for chunk in r.iter_content(block_size):
                 if progress:
                     chunk_size += len(chunk)
-                    Unpywall._progress(chunk_size/file_size)
+                    Unpywall._progress(chunk_size / file_size)
                 file.write(chunk)

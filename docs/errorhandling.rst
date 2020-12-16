@@ -2,8 +2,8 @@ Error Handling
 ==============
 
 A number of errors can occur when accessing Unpaywall, including:
-    Network errors
-    Invalid DOIs
+  - Network errors
+  - Invalid DOIs
 
 .. code-block:: python
 

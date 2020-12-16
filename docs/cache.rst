@@ -20,7 +20,7 @@ Unpywall caches results to reduce network bandwidth and improve speed.
    cache = UnpywallCache()
    Unpywall.init_cache(cache)
 
-By default, a package-wide cache is used. 
+By default, a package-wide cache is used.
 
 .. code-block:: python
 
@@ -33,11 +33,11 @@ You can also use a project-specific cache.
 
    cache = UnpywallCache(timeout=2)
    Unpywall.init_cache(cache)
-   original = Unpywall.get_df('10.7717/peerj.4375')
+   original = Unpywall.doi('10.7717/peerj.4375')
    time.sleep(1)
-   record_from_cache = Unpywall.get_df('10.7717/peerj.4375') #only 1s has passed
+   record_from_cache = Unpywall.doi('10.7717/peerj.4375') #only 1s has passed
    time.sleep(2)
-   fresh_record = Unpywall.get_df('10.7717/peerj.4375') #3s have now passed, greater than the timeout (2s)
+   fresh_record = Unpywall.doi('10.7717/peerj.4375') #3s have now passed, greater than the timeout (2s)
 
 You can set a timeout (in seconds). Unpaywall sometimes updates its open access data, to reflect more accurate information now available. For long-running applications, you may want to set entries to expire in a certain amount of time, so you do not end up with outdated records.
 
@@ -45,6 +45,6 @@ You can set a timeout (in seconds). Unpaywall sometimes updates its open access 
 
    cache = UnpywallCache()
    Unpywall.init_cache(cache)
-   Unpywall.get_df('10.7717/peerj.4375', force=True)
+   Unpywall.doi('10.7717/peerj.4375', force=True)
 
 You can also override the cache completely using the 'force' option.

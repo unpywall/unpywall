@@ -29,7 +29,7 @@ pip install unpywall
 
 ### Authentication
 
-To use the Unpaywall Service, you need to authenticate yourself. For that, unpywall offers multiple ways for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself. Both methods require an email.
+An authentification is required to use the Unpaywall Service. For that, unpywall offers two options for authorizing the client. You can either import `UnpywallCredentials` which generates an environment variable or you can set the environment variable by yourself. Both methods require an email.
 
 ```python
 from unpywall.utils import UnpywallCredentials
@@ -43,14 +43,14 @@ Notice that the environment variable for authentication needs to be called `UNPA
 export UNPAYWALL_EMAIL=nick.haupka@gmail.com
 ```
 
-### Pandas Integration
+### Query Unpaywall by DOI
 
-unpywall uses the data analysis tool [pandas](https://pandas.pydata.org/) for evaluating information from Unpaywall. By default, the Unpaywall API returns a JSON data structure. However, by using `get_df`, you can transform that into a pandas DataFrame. This also works with multiple DOIs.
+If you want to search articles by a given DOI use the method `doi`. The result is a [pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html).
 
 ```python
 from unpywall import Unpywall
 
-Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
+Unpywall.doi(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
 
 #   data_standard  ... best_oa_location.version
 #0              2  ...         publishedVersion
@@ -62,17 +62,30 @@ Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'])
 You can track the progress of your API call by setting the parameter `progress` to True. This is especially useful for estimating the time required.
 
 ```python
-Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-                progress=True)
+Unpywall.doi(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
+             progress=True)
 
 #|=========================                        | 50%
 ```
 
-The method also allows two options for catching errors (`raise` and `ignore`)
+This method also allows two options for catching errors (`raise` and `ignore`)
 
 ```python
-Unpywall.get_df(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
-                errors='ignore')
+Unpywall.doi(dois=['10.1038/nature12373', '10.1093/nar/gkr1047'],
+             errors='ignore')
+```
+
+### Query Unpaywall by text search
+
+If you want to search articles by a given term use the method `query`. The result is a [pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
+
+```python
+Unpywall.query(query='sea lion',
+               is_oa=True)
+#   data_standard  ... first_oa_location.version
+#0              2  ...          publishedVersion
+#1              2  ...          publishedVersion
+#2              2  ...          publishedVersion
 ```
 
 ### Conveniently obtain full text

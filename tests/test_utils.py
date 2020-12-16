@@ -21,11 +21,11 @@ class TestUnpywallCredentials:
             assert UnpywallCredentials.validate_email(bad_email)
 
         with pytest.raises(ValueError, match='Do not use example.com'):
-            assert UnpywallCredentials \
-                    .validate_email('nick.haupka@example.com')
+            assert UnpywallCredentials.validate_email(
+              'nick.haupka@example.com')
 
         assert UnpywallCredentials.validate_email(
-                                        correct_email) == correct_email
+            correct_email) == correct_email
 
         assert isinstance(repr(UnpywallCredentials(correct_email)), str)
 
@@ -34,10 +34,18 @@ class TestUnpywallCredentials:
 
 class TestUnpywallURL:
 
-    def test_url(self):
+    def test_doi_url(self):
 
         doi = '10.1038/nature12373'
 
-        url = UnpywallURL(doi).url
+        url = UnpywallURL(doi=doi).doi_url
+
+        assert isinstance(url, str)
+
+    def test_query_url(self):
+
+        query = 'duck'
+
+        url = UnpywallURL(query=query).query_url
 
         assert isinstance(url, str)
