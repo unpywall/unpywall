@@ -504,7 +504,7 @@ class Unpywall:
         with open(path, 'wb') as file:
             chunk_size = 0
             for chunk in r.iter_content(block_size):
-                if progress:
+                if progress and file_size > 0:
                     chunk_size += len(chunk)
                     Unpywall._progress(chunk_size / file_size)
                 file.write(chunk)
