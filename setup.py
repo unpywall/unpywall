@@ -23,7 +23,7 @@ setup(name='unpywall',
         'Tracker': 'https://github.com/unpywall/unpywall/issues'
       },
       install_requires=[
-        'pandas>=2.0',
+        'pandas',
         'requests'
       ],
       extras_require={
