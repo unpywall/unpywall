@@ -7,7 +7,7 @@ with open(path.join(dir, 'README.md'), encoding='utf-8') as file:
 
 
 setup(name='unpywall',
-      version='0.2',
+      version='0.2.1',
       description='Interfacing the Unpaywall Database with Python',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -44,8 +44,8 @@ setup(name='unpywall',
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9'
       ],
       zip_safe=False)

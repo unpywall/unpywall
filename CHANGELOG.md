@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1
+
+### Fixed
+
+- ZeroDivisionError: https://github.com/unpywall/unpywall/issues/37
+
 ## v0.2
 
 ### Added
