@@ -1,0 +1,7 @@
+pandas
+requests
+pytest
+coverage
+pytest-cov
+sphinx
+alabaster
