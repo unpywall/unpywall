@@ -270,7 +270,7 @@ class Unpywall:
             df2 = Unpywall._get_df(data=data,
                                    format=format,
                                    errors=errors)
-            df = df.append(df2, ignore_index=True)
+            df = pd.concat([df, df2], ignore_index=True)
 
         if df.empty:
             return None
