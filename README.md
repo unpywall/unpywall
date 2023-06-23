@@ -1,6 +1,6 @@
 # unpywall - Interfacing the Unpaywall API with Python
 
-[![Build Status](https://travis-ci.org/unpywall/unpywall.svg?branch=master)](https://travis-ci.org/github/unpywall/unpywall)
+[![Build Status](https://circleci.com/gh/unpywall/unpywall.svg?style=shield)](https://app.circleci.com/pipelines/github/unpywall/unpywall)
 [![codecov.io](https://codecov.io/gh/unpywall/unpywall/branch/master/graph/badge.svg)](https://codecov.io/gh/unpywall/unpywall?branch=master)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/unpywall)](https://pypi.org/project/unpywall/)
 [![License](https://img.shields.io/github/license/unpywall/unpywall)](https://github.com/unpywall/unpywall/blob/master/LICENSE.txt)
