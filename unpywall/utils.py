@@ -55,7 +55,7 @@ class UnpywallCredentials:
         """
 
         # from https://stackoverflow.com/a/43937713/12580727
-        email_regex = r'^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$'
+        email_regex = r'^[\w\.\+\-]+\@[\w\.\-]+$'
 
         if email is None:
             raise ValueError(('An email address is required in order'
