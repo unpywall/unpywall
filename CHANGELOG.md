@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.3
+
+### Fixed
+
+- Email regex more flexible: https://github.com/unpywall/unpywall/pull/40
+
 ## v0.2.2
 
 ### Fixed
